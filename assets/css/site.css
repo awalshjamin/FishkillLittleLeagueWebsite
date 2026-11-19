@@ -299,6 +299,13 @@ p:last-child { margin-bottom: 0; }
 
 .registration-policy-row {
     grid-template-columns: minmax(0, 1fr);
+    max-width: 62.5rem;
+    margin-inline: auto;
+}
+
+.registration-policy-row > * {
+    width: min(100%, 20rem);
+    justify-self: center;
 }
 
 .registration-program,
@@ -308,11 +315,6 @@ p:last-child { margin-bottom: 0; }
     border: 1px solid #d6dbe2;
     border-radius: var(--radius);
     text-align: center;
-}
-
-.registration-program {
-    justify-self: center;
-    width: min(100%, 20rem);
 }
 
 .registration-links {
@@ -345,10 +347,9 @@ p:last-child { margin-bottom: 0; }
     min-height: 44px;
 }
 
-@media (min-width: 42rem) {
+@media (min-width: 58rem) {
     .registration-policy-row {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 20rem);
-        align-items: start;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
 
