@@ -142,8 +142,8 @@ def regions(season):
             <div><h3>Volunteer fee</h3><p>{volunteer}</p></div>
             <div><h3>Uniforms &amp; equipment</h3><p>{uniform}</p></div>
             <div><h3>Payment plans &amp; financial assistance</h3><p>{payment}</p></div>
-            <div><h3>Refund policy</h3><p>{refund}</p></div>
         </div>''',
+        'register-refund': f'            <div><h3>Refund policy</h3><p>{refund}</p></div>',
         'guide-season': f'''                <p>{evaluation} {attendance} {alternate} Expect an assigned slot of {escape(evaluations["slot"])} and more details in {escape(evaluations["details_release"])}.</p>
                 <p>Opening Day is {opening}, weather permitting. The rain date is {rain}. Games run through {escape(season["season_end"])}.</p>''',
         'guide-schedule': f'        <p>{escape(season["team_schedule"])} {escape(season["weeknight_games"])} {escape(season["possible_travel"])}</p>',

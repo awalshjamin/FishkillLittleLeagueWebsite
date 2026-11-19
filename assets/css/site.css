@@ -297,26 +297,30 @@ p:last-child { margin-bottom: 0; }
     border-radius: var(--radius);
 }
 
-.registration-links {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
-    gap: 1rem;
-    margin-top: 1.5rem;
+.registration-policy-row {
+    grid-template-columns: minmax(0, 1fr);
 }
 
+.registration-program,
 .registration-links nav {
-    padding: 1.25rem;
+    padding: 1rem;
     background: #fff;
     border: 1px solid #d6dbe2;
     border-radius: var(--radius);
+    text-align: center;
+}
+
+.registration-program {
+    justify-self: center;
+    width: min(100%, 20rem);
+}
+
+.registration-links {
+    width: min(100%, 32rem);
+    margin: 1.5rem auto 0;
 }
 
 .registration-links h3 { color: var(--fll-blue); }
-
-.registration-links nav[aria-labelledby="register-program-links"] {
-    align-self: start;
-    padding: .9rem 1rem;
-}
 
 .registration-program-links,
 .registration-help-links {
@@ -328,6 +332,7 @@ p:last-child { margin-bottom: 0; }
 .registration-program-links {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     column-gap: 1rem;
     margin-top: .25rem;
 }
@@ -336,7 +341,15 @@ p:last-child { margin-bottom: 0; }
 .registration-help-links a {
     display: flex;
     align-items: center;
+    justify-content: center;
     min-height: 44px;
+}
+
+@media (min-width: 42rem) {
+    .registration-policy-row {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 20rem);
+        align-items: start;
+    }
 }
 
 .registration-help-links li + li { border-top: 1px solid #d6dbe2; }
