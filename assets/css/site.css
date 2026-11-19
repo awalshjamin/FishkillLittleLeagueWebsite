@@ -18,11 +18,13 @@ body {
     color: var(--fll-dark);
     background: var(--fll-cream);
     font: 1rem/1.6 system-ui, "Segoe UI", sans-serif;
+    overflow-wrap: anywhere;
 }
 
 img { display: block; max-width: 100%; height: auto; }
 a { color: var(--fll-blue); text-underline-offset: .2em; }
 :focus-visible { outline: 3px solid currentColor; outline-offset: 4px; }
+main:focus-visible { outline-offset: -3px; }
 
 h1, h2, h3 { line-height: 1.15; margin: 0 0 1rem; overflow-wrap: anywhere; }
 h1 { font-size: clamp(2rem, 7vw, 4.75rem); }
@@ -39,9 +41,9 @@ p:last-child { margin-bottom: 0; }
     left: .5rem;
     padding: .65rem 1rem;
     background: white;
-    transform: translateY(-200%);
+    clip-path: inset(50%);
 }
-.skip-link:focus { transform: none; }
+.skip-link:focus { clip-path: none; }
 
 .site-header, .site-footer { background: var(--fll-blue); color: white; }
 .header-inner {
@@ -100,18 +102,34 @@ p:last-child { margin-bottom: 0; }
 }
 
 .hero {
+    position: relative;
+    isolation: isolate;
     display: grid;
     place-items: center;
-    min-height: clamp(20rem, 48vw, 35rem);
-    padding: 3rem 0;
-    background: linear-gradient(rgb(5 9 30 / 72%), rgb(5 9 30 / 70%)),
-        var(--hero-image) center / cover no-repeat, var(--fll-blue);
+    min-height: clamp(16rem, 48vw, 31rem);
+    padding-block: clamp(2rem, 6vw, 4rem);
+    background: var(--fll-blue);
     color: white;
     text-align: center;
 }
 
-.hero-home { min-height: clamp(26rem, 65svh, 43rem); }
-.hero-overlay { width: min(92%, 860px); }
+.hero-image, .hero::after {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-image { object-fit: cover; }
+
+.hero::after {
+    content: "";
+    background: linear-gradient(rgb(5 9 30 / 64%), rgb(5 9 30 / 70%));
+    pointer-events: none;
+}
+
+.hero-home { min-height: clamp(23rem, 60svh, 40rem); }
+.hero-overlay { position: relative; z-index: 1; width: min(92%, 860px); }
 .hero p { margin-inline: auto; max-width: 64ch; font-size: clamp(1rem, 3vw, 1.2rem); }
 .hero .hero-tagline { font-size: clamp(1.35rem, 4vw, 2.25rem); font-weight: 700; }
 .hero-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem; margin-top: 1.5rem; }
@@ -154,7 +172,7 @@ p:last-child { margin-bottom: 0; }
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
 }
 
-.program-section { background: white; }
+.program-section, .local-program { background: white; }
 .program-card, .division-card, .board-grid > div, .season-details > div, .sponsor-card, .announcement-box {
     background: white;
     border: 1px solid #dddde7;
@@ -207,8 +225,8 @@ p:last-child { margin-bottom: 0; }
 .site-footer a { color: white; overflow-wrap: anywhere; }
 .footer-brand { font-size: 1.4rem; font-weight: 750; }
 .site-footer h2 { font-size: 1.15rem; }
-.footer-links { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; }
-.footer-links a, .site-footer address a { display: inline-flex; align-items: center; min-height: 36px; }
+.footer-links { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 .75rem; }
+.footer-links a, .site-footer address a { display: inline-flex; align-items: center; min-height: 44px; }
 .site-footer address { font-style: normal; margin-bottom: 1rem; }
 
 @media (min-width: 44rem) {
@@ -218,4 +236,9 @@ p:last-child { margin-bottom: 0; }
 
 @media (min-width: 67.5rem) {
     #nav-menu { width: auto; }
+}
+
+@media (width < 44rem) {
+    #nav-menu { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .hero-buttons > a { max-width: 100%; }
 }

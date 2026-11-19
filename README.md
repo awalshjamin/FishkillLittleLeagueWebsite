@@ -18,3 +18,9 @@ From the repository root, run `python3 -m http.server 8000` and open [localhost:
 ## Seasonal updates
 
 Update dates and registration callouts on the homepage and registration page, and keep the division cards on the Baseball, Softball and Register pages in sync with the published Sports Connect listings. Update the year, roles and names on the About page when a new board takes office. Use the approved sponsor roster and original sponsor artwork for the Sponsors page.
+
+## Replace a page’s hero image
+
+Add the new photo under `assets/images/`. In the page’s `index.html`, update the `src`, `width` and `height` on the `hero-image` element. Keep `./assets/` on the homepage and `../assets/` on pages in subfolders. The hero is decorative behind the page heading, so leave its alternative text empty.
+
+If the same photo is used for social previews, update the Open Graph image URL, dimensions and description, the Twitter image URL and description, and `primaryImageOfPage` in the page’s structured data. Preview the page on a narrow phone and a desktop to check the crop.
