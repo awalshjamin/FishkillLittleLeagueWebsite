@@ -354,3 +354,21 @@ p:last-child { margin-bottom: 0; }
 }
 
 .registration-help-links li + li { border-top: 1px solid #d6dbe2; }
+
+.program-card .program-softball-photo { object-position: 35% center; }
+
+.community-program-photo {
+    margin-bottom: 1.5rem;
+    border-radius: var(--radius);
+}
+
+.sponsor-jersey-photo {
+    width: min(100%, 20rem);
+    margin: 0 auto 1.5rem;
+    text-align: center;
+}
+
+.sponsor-jersey-photo img { border-radius: var(--radius); }
+.sponsor-jersey-photo figcaption { margin-top: .75rem; }
+
+.tournament-photos { display: grid; gap: 1.25rem; }
