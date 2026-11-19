@@ -260,3 +260,28 @@ p:last-child { margin-bottom: 0; }
 
 .park-map { margin: 0; }
 .park-map figcaption { margin-top: .75rem; }
+
+.division-table-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+    align-items: start;
+    gap: 1.5rem;
+}
+
+.division-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    text-align: left;
+}
+
+.division-table caption {
+    padding: .75rem;
+    font-weight: 700;
+}
+
+.division-table th,
+.division-table td {
+    padding: .65rem .75rem;
+    border-bottom: 1px solid #d6dbe2;
+}

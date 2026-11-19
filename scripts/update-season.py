@@ -53,6 +53,22 @@ def cards(program, sport, registration, base_url):
     return '\n'.join(output)
 
 
+def division_table(sport, program):
+    rows = []
+    for division in program['divisions']:
+        low, high = division['ages']
+        ages = str(low) if low == high else f'{low}–{high}'
+        link = f'<a href="#division-{division["id"]}">{escape(division["name"])}</a>'
+        rows.append(f'                <tr><th scope="row">{link}</th><td>{ages}</td></tr>')
+    return f"""        <table class="division-table">
+            <caption>{sport.title()} divisions by league age</caption>
+            <thead><tr><th scope="col">Division</th><th scope="col">League age</th></tr></thead>
+            <tbody>
+{chr(10).join(rows)}
+            </tbody>
+        </table>"""
+
+
 def regions(season):
     label = escape(season['label'])
     opening = time_tag(season['opening_day'], weekday=True)
@@ -60,6 +76,10 @@ def regions(season):
     evaluations = season['evaluations']
     evaluation_day = time_tag(evaluations['date'], weekday=True)
     evaluation = f'{evaluation_day}, {escape(evaluations["window"])}, at {escape(evaluations["location"])}.'
+    attendance = escape(evaluations['requirement'])
+    alternate = 'If you can’t attend, <a href="mailto:president@fishkilllittleleague.org?subject=Alternate%20player%20evaluation">email the league as soon as possible</a> to arrange an alternate evaluation.'
+    payment = f'{escape(season["payment_options"])} <a href="mailto:president@fishkilllittleleague.org?subject=Registration%20payment%20options">Email the league about payment options</a>.'
+    uniform = escape(season['uniform'])
     volunteer = f'The league charges one refundable ${season["volunteer_fee"]} volunteer fee per family. The fee is returned at the end of the season after the family volunteers.'
     refund = f'After {season["refund_hours"]} hours from registration submission, refunds require a medical note stating the player cannot participate this season.'
     blocks = {
@@ -73,14 +93,21 @@ def regions(season):
         'register-intro': f'            Compare {label.lower()} divisions and register through Sports Connect.',
         'register-summary': f'''        <h2>{label} at a Glance</h2>
         <div class="season-details">
-            <div><h3>Player evaluations</h3><p>{evaluation} Evaluations are mandatory. Players are assigned a slot of {escape(evaluations["slot"])}. Details are expected in {escape(evaluations["details_release"])}.</p></div>
+            <div><h3>Player evaluations</h3><p>{evaluation} {attendance} {alternate} Players are assigned a slot of {escape(evaluations["slot"])}. Details are expected in {escape(evaluations["details_release"])}.</p></div>
             <div><h3>Opening Day</h3><p>{opening}, weather permitting. Rain date {rain}. Ceremony details are expected in {escape(season["opening_details_release"])}.</p></div>
             <div><h3>Volunteer fee</h3><p>{volunteer}</p></div>
         </div>
+        <p class="section-intro">{uniform}</p>
+        <p class="section-intro">{payment}</p>
         <p class="section-intro">{refund}</p>''',
-        'guide-season': f'''                <p>{evaluation} Evaluations are mandatory. Expect an assigned slot of {escape(evaluations["slot"])} and more details in {escape(evaluations["details_release"])}.</p>
+        'guide-season': f'''                <p>{evaluation} {attendance} {alternate} Expect an assigned slot of {escape(evaluations["slot"])} and more details in {escape(evaluations["details_release"])}.</p>
                 <p>Opening Day is {opening}, weather permitting. The rain date is {rain}. Games run through {escape(season["season_end"])}.</p>''',
-        'guide-schedule': f'        <p>{escape(season["team_schedule"])} {escape(season["possible_travel"])}</p>',
+        'guide-schedule': f'        <p>{escape(season["team_schedule"])} {escape(season["weeknight_games"])} {escape(season["possible_travel"])}</p>',
+        'guide-uniform': f'        <p>{uniform}</p>',
+        'guide-payment': f'        <p>{payment}</p>',
+        'division-tables': '        <div class="division-table-grid">\n' + '\n'.join(
+            division_table(sport, program) for sport, program in season['programs'].items()
+        ) + '\n        </div>',
         'guide-fee': f'                <p>{volunteer} See <a href="../volunteer/">ways to volunteer</a>, including coaching, serving as a team parent, field maintenance, concessions and fundraising.</p>',
     }
     for sport, program in season['programs'].items():

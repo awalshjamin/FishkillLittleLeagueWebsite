@@ -7,7 +7,8 @@
     "window": "noon to 6 p.m.",
     "location": "Brinckerhoff Elementary School",
     "slot": "one to two hours",
-    "details_release": "late February"
+    "details_release": "late February",
+    "requirement": "Players registered for Coach Pitch or above must attend evaluations."
   },
   "opening_details_release": "March 2027",
   "season_end": "the last weekend of June",
@@ -38,10 +39,10 @@
             6
           ],
           "fee": 75,
-          "description": "Learn the basics by hitting from a tee. Practices are on Mondays, with games on Saturdays at 1:00 p.m.",
+          "description": "Boys and girls learn the basics by hitting from a tee. Practices are on Mondays, with games on Saturdays at 1:00 p.m.",
           "overview": {
             "name": "Tee Ball",
-            "description": "Learn the basics by hitting from a tee. Choose Monday or Tuesday practice when you register."
+            "description": "Boys and girls learn the basics by hitting from a tee. Choose Monday or Tuesday practice when you register."
           }
         },
         {
@@ -52,7 +53,7 @@
             6
           ],
           "fee": 75,
-          "description": "Learn the basics by hitting from a tee. Practices are on Tuesdays, with games on Saturdays at 10 a.m.",
+          "description": "Boys and girls learn the basics by hitting from a tee. Practices are on Tuesdays, with games on Saturdays at 10 a.m.",
           "registration_only": true
         },
         {
@@ -185,6 +186,9 @@
       ]
     }
   },
-  "team_schedule": "Many teams meet two to three times a week between practices and games. Minors Player Pitch and Majors generally play one weeknight game and one Saturday game. Instructional teams may also play twice a week.",
-  "possible_travel": "Some teams may travel to play neighboring leagues in Philipstown, Wappingers Falls, Hyde Park or Red Hook."
+  "team_schedule": "Practices take place on weekdays after 5 p.m. FUN-damentals and Tee Ball meet on fixed days. At older levels, coaches set practice days. All divisions play games on Saturdays. During spring, player-pitch divisions often play a second game on a weeknight.",
+  "possible_travel": "Some teams may travel to play neighboring leagues in Philipstown, Wappingers Falls, Hyde Park or Red Hook.",
+  "weeknight_games": "Majors baseball often plays on Tuesdays and Minors baseball often plays on Wednesdays. Those nights can change. The league schedules games with pitcher arm care and required rest days in mind.",
+  "payment_options": "Payment plans and financial assistance are available.",
+  "uniform": "A jersey and hat are included in the registration price. Players should wear athletic bottoms. In player-pitch divisions, plastic molded cleats are required and baseball or softball pants are recommended."
 }
