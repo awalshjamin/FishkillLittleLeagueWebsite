@@ -234,7 +234,7 @@ p:last-child { margin-bottom: 0; }
     .footer-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
-@media (min-width: 67.5rem) {
+@media (min-width: 72rem) {
     #nav-menu { width: auto; }
 }
 

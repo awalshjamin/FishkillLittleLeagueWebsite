@@ -1,6 +1,6 @@
 const menuButton = document.querySelector("#mobile-menu-button");
 const navigation = document.querySelector("#nav-menu");
-const compactHeader = window.matchMedia("(width < 67.5rem)");
+const compactHeader = window.matchMedia("(width < 72rem)");
 
 function setMenuOpen(open) {
     menuButton.setAttribute("aria-expanded", String(open));
