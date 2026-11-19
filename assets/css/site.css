@@ -242,3 +242,8 @@ p:last-child { margin-bottom: 0; }
     #nav-menu { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .hero-buttons > a { max-width: 100%; }
 }
+
+.family-guide { max-width: 72ch; }
+.family-guide h2 { text-align: start; }
+.family-guide h2:not(:first-child) { margin-top: 2.5rem; }
+.family-guide h3 { margin: 1.25rem 0 .5rem; }

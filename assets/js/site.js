@@ -19,7 +19,7 @@ function updateMenuLayout() {
     }
 
     if (!compactHeader.matches && focusedOnButton) {
-        navigation.querySelector("[aria-current='page']").focus();
+        (navigation.querySelector("[aria-current='page']") ?? navigation.querySelector("a")).focus();
     }
 }
 

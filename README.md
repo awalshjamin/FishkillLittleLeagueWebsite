@@ -1,6 +1,6 @@
 # Fishkill Little League website
 
-The nine public pages are static HTML with shared CSS and JavaScript in `assets/`. No build, framework, or paid hosting is required to serve this checkout.
+The public pages are static HTML with shared CSS and JavaScript in `assets/`. GitHub Pages serves the committed HTML directly. Updating season data requires Python 3 and uses only its standard library.
 
 ## Preview locally
 
@@ -9,7 +9,7 @@ From the repository root, run `python3 -m http.server 8000` and open [localhost:
 ## Publish on GitHub Pages
 
 1. In the repository’s **Settings → Pages**, choose **Deploy from a branch**, then **main** and **/ (root)**. GitHub Free supports Pages for public repositories.
-2. After the deployment succeeds, open [the GitHub Pages project URL](https://awalshjamin.github.io/FishkillLittleLeagueWebsite/) and verify the nine pages, mobile navigation, and all Sports Connect registration links.
+2. After the deployment succeeds, open [the GitHub Pages project URL](https://awalshjamin.github.io/FishkillLittleLeagueWebsite/) and verify the public pages, mobile navigation, and all Sports Connect registration links.
 3. When ready to move the live domain, verify ownership in GitHub and add `fishkilllittleleague.org` in the repository’s Pages settings. For branch-based publishing, GitHub writes the `CNAME` file. Update the domain’s web DNS records using GitHub’s current instructions and preserve the records used for league email.
 4. Enable **Enforce HTTPS** when available. Verify the root domain, `/robots.txt`, `/sitemap.xml` and links to each division. Canonicals and social metadata already use `https://fishkilllittleleague.org/`.
 
@@ -17,7 +17,11 @@ From the repository root, run `python3 -m http.server 8000` and open [localhost:
 
 ## Seasonal updates
 
-Update dates and registration callouts on the homepage and registration page, and keep the division cards on the Baseball, Softball and Register pages in sync with the published Sports Connect listings. Update the year, roles and names on the About page when a new board takes office. Use the approved sponsor roster and original sponsor artwork for the Sponsors page.
+1. Edit `data/season.json` to update dates, league-age cutoffs, schedules, fees and Sports Connect division IDs. Use ISO dates (`YYYY-MM-DD`).
+2. From the repository root, run `python scripts/update-season.py` (or `py -3 scripts/update-season.py` on Windows).
+3. Preview the affected pages, check the Sports Connect links, and commit both the JSON and generated HTML. Run `python scripts/update-season.py --check` to check whether the HTML matches the data.
+
+The generator replaces the content between matching `season` comments. Edit family guidance outside those comments directly in `first-season/index.html`. Update the year, roles and names on the About page when a new board takes office. Use the approved sponsor roster and original sponsor artwork for the Sponsors page.
 
 ## Replace a page’s hero image
 

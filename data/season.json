@@ -1,0 +1,185 @@
+{
+  "label": "Spring 2027",
+  "opening_day": "2027-04-03",
+  "rain_date": "2027-04-10",
+  "evaluations": {
+    "date": "2027-03-07",
+    "window": "noon to 6 p.m.",
+    "location": "Brinckerhoff Elementary School",
+    "slot": "one to two hours",
+    "details_release": "late February"
+  },
+  "opening_details_release": "March 2027",
+  "season_end": "the last weekend of June",
+  "volunteer_fee": 50,
+  "refund_hours": 72,
+  "registration_url": "https://registration.bluesombrero.com/21201/available-programs",
+  "programs": {
+    "baseball": {
+      "cutoff": "2027-08-31",
+      "placement_note": "Tee Ball has its own eligibility dates. Check the Tee Ball options in Sports Connect for birthday eligibility. FUN-damentals players must be 4 by the start of the season.",
+      "practices": "Practices generally start in March. Tee Ball practices begin after Opening Day.",
+      "divisions": [
+        {
+          "id": "131602902",
+          "name": "FUN-damentals",
+          "ages": [
+            4,
+            4
+          ],
+          "fee": 25,
+          "description": "A parent-and-player introduction to throwing, catching, hitting and running the bases."
+        },
+        {
+          "id": "131612323",
+          "name": "Tee Ball Monday",
+          "ages": [
+            5,
+            6
+          ],
+          "fee": 75,
+          "description": "Learn the basics by hitting from a tee. Monday practice and Saturday games."
+        },
+        {
+          "id": "131610877",
+          "name": "Tee Ball Tuesday",
+          "ages": [
+            5,
+            6
+          ],
+          "fee": 75,
+          "description": "Learn the basics by hitting from a tee. Tuesday practice and Saturday games at 10 a.m."
+        },
+        {
+          "id": "131602903",
+          "name": "Coach Pitch",
+          "ages": [
+            6,
+            8
+          ],
+          "fee": 110,
+          "description": "Hit pitches from a coach while learning field positions and game basics."
+        },
+        {
+          "id": "131610876",
+          "name": "Instructional Kid Pitch",
+          "ages": [
+            7,
+            9
+          ],
+          "fee": 110,
+          "description": "Make the transition to player pitching with an emphasis on instruction and skill development."
+        },
+        {
+          "id": "131602904",
+          "name": "Minor Player Pitch",
+          "ages": [
+            9,
+            11
+          ],
+          "fee": 125,
+          "description": "Build pitching, hitting and defensive skills in player-pitch games."
+        },
+        {
+          "id": "131602905",
+          "name": "Major",
+          "ages": [
+            10,
+            12
+          ],
+          "fee": 150,
+          "description": "Develop game strategy and teamwork in the Little League Major division."
+        },
+        {
+          "id": "131602906",
+          "name": "Intermediate 50/70",
+          "ages": [
+            11,
+            13
+          ],
+          "fee": 200,
+          "description": "Transition to a larger diamond with a 50-foot pitching distance and 70-foot basepaths."
+        },
+        {
+          "id": "131602907",
+          "name": "Junior",
+          "ages": [
+            13,
+            14
+          ],
+          "fee": 200,
+          "description": "Play full-diamond baseball with 90-foot basepaths."
+        },
+        {
+          "id": "131602908",
+          "name": "Senior",
+          "ages": [
+            14,
+            16
+          ],
+          "fee": 200,
+          "description": "Continue competitive full-diamond baseball for older players."
+        }
+      ]
+    },
+    "softball": {
+      "cutoff": "2026-12-31",
+      "placement_note": "This cutoff applies to all softball divisions.",
+      "practices": "Practices generally start in March or early April.",
+      "divisions": [
+        {
+          "id": "131612302",
+          "name": "Coach Pitch",
+          "ages": [
+            6,
+            8
+          ],
+          "fee": 110,
+          "description": "Learn to hit coach-delivered pitches, run the bases and field as a team."
+        },
+        {
+          "id": "131612303",
+          "name": "Minor Player Pitch",
+          "ages": [
+            9,
+            11
+          ],
+          "fee": 125,
+          "description": "Build confidence in player-pitch games and develop pitching, hitting and defensive skills."
+        },
+        {
+          "id": "131612304",
+          "name": "Major",
+          "ages": [
+            10,
+            12
+          ],
+          "fee": 150,
+          "description": "Build on fastpitch fundamentals with more game strategy and team play."
+        },
+        {
+          "id": "131612305",
+          "name": "Junior",
+          "ages": [
+            13,
+            14
+          ],
+          "fee": 200,
+          "description": "Keep developing fastpitch skills and game strategy in the Junior division."
+        },
+        {
+          "id": "131612306",
+          "name": "Senior",
+          "ages": [
+            14,
+            16
+          ],
+          "fee": 200,
+          "description": "Continue competitive fastpitch softball in the league’s oldest division."
+        }
+      ]
+    }
+  },
+  "team_schedule": "Many teams meet two to three times a week between practices and games. Minors Player Pitch and Majors generally play one weeknight game and one Saturday game. Instructional teams may also play twice a week.",
+  "possible_travel": "Some teams may travel to play neighboring leagues in Philipstown, Wappingers Falls, Hyde Park or Red Hook."
+}
