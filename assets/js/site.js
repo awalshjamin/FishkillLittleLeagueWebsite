@@ -36,3 +36,44 @@ document.querySelector(".site-header").addEventListener("keydown", (event) => {
 
 compactHeader.addEventListener("change", updateMenuLayout);
 updateMenuLayout();
+
+const registrationStatuses = document.querySelectorAll("[data-registration-deadline]");
+
+if (registrationStatuses.length) {
+    const easternDate = new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/New_York",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+    });
+
+    function updateRegistrationDeadlines() {
+        const parts = Object.fromEntries(
+            easternDate.formatToParts(new Date()).map(({ type, value }) => [type, value])
+        );
+        const today = `${parts.year}-${parts.month}-${parts.day}`;
+
+        for (const status of registrationStatuses) {
+            if (today <= status.dataset.registrationDeadline) continue;
+
+            const label = status.querySelector("strong");
+            label.textContent = status.dataset.closedLabel;
+
+            for (const link of document.querySelectorAll(
+                `[data-registration-link="${status.dataset.registrationStatus}"]`
+            )) {
+                if (link.tagName === "A") {
+                    const replacement = document.createElement("span");
+                    replacement.textContent = link.dataset.closedLabel ?? link.textContent;
+                    link.replaceWith(replacement);
+                } else {
+                    link.remove();
+                }
+            }
+        }
+    }
+
+    updateRegistrationDeadlines();
+    window.addEventListener("pageshow", updateRegistrationDeadlines);
+    window.setInterval(updateRegistrationDeadlines, 60_000);
+}

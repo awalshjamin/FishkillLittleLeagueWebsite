@@ -57,7 +57,29 @@ def time_tag(value, weekday=False):
     return f'<time datetime="{value}">{date_text(value, weekday)}</time>'
 
 
-def cards(program, sport, registration, base_url):
+def registration_status(group, settings, name):
+    prefix = f'{name} registration'
+    deadline = settings['deadline']
+    if not settings['open']:
+        return f'<p class="section-intro"><strong>{prefix} is closed.</strong></p>'
+    if deadline is None:
+        return f'<p class="section-intro"><strong>{prefix} is open.</strong></p>'
+    return (
+        f'<p class="section-intro" data-registration-status="{group}" '
+        f'data-registration-deadline="{deadline}" data-closed-label="{prefix} is closed.">'
+        f'<strong>{prefix} closes on {time_tag(deadline)} at 11:59 p.m. Eastern.</strong></p>'
+    )
+
+
+def gift_levels(donations):
+    return '\n'.join(
+        f'            <div><h3>${tier["amount"]:,}</h3><p>{escape(tier["description"])}</p></div>'
+        for tier in donations['tiers']
+    )
+
+
+
+def cards(program, sport, registration, base_url, registration_open=True):
     output = ['        <div class="division-grid">']
     for item in program['divisions']:
         if not registration and item.get('registration_only'):
@@ -79,12 +101,19 @@ def cards(program, sport, registration, base_url):
             label = f'View registration details for {name}'
             anchor = f'program-{key}'
             fee = ''
+        signup = f'<a class="btn-primary" href="{escape(href, quote=True)}" aria-label="{label}">{cta}</a>'
+        if registration:
+            signup = (
+                f'<a class="btn-primary" href="{escape(href, quote=True)}" aria-label="{label}" '
+                'data-registration-link="spring" data-closed-label="Registration closed">Register</a>'
+                if registration_open else '<p>Registration closed</p>'
+            )
         output.extend([
             f'            <article class="division-card" id="{anchor}">',
             f'                <h3>{name}</h3>',
             f'                <p class="division-meta">{ages}{fee}</p>',
             f'                <p>{escape(display["description"])}</p>',
-            f'                <a class="btn-primary" href="{escape(href, quote=True)}" aria-label="{label}">{cta}</a>',
+            f'                {signup}',
             '            </article>',
         ])
     output.append('        </div>')
@@ -117,7 +146,7 @@ def clinic_tables(clinics, registration=False):
             name = escape(session['name'])
             if registration:
                 href = escape(session["signup_url"], quote=True)
-                name = f'<a href="{href}">{name}</a>'
+                name = f'<a href="{href}" data-registration-link="winter_clinics">{name}</a>'
             rows.append(f'                <tr><th scope="row">{name}</th><td>{escape(session["time"])}</td></tr>')
         tables.append(f"""        <div>
             <table class="division-table">
@@ -153,18 +182,26 @@ def regions(season):
             item for item in program['divisions'] if not item.get('rookie')
         ]}
     clinics = season['winter_clinics']
+    spring_registration = season['registration']['spring']
+    clinic_registration = season['registration']['winter_clinics']
+    clinic_cta = (
+        f'<p class="section-action" data-registration-link="winter_clinics"><a href="{escape(clinics["sessions_url"], quote=True)}">View all programs in Sports Connect</a></p>'
+        if clinic_registration['open'] else ''
+    )
     start = time_tag(clinics['starts'])
     end = time_tag(clinics['ends'])
     clinic_summary = f'<p class="section-intro">Clinics run from {start} through {end}. Each clinic costs ${clinics["fee"]}. <strong>Players must be registered for Fishkill Little League’s {label} season to participate.</strong></p>'
     rookies_cutoff = time_tag(season['programs']['baseball']['cutoff'])
     rookies_exception = escape(season['rookies_age_exception'])
     blocks = {
+        'spring-registration-status': registration_status('spring', spring_registration, 'Spring'),
+        'clinic-registration-status': registration_status('winter_clinics', clinic_registration, 'Winter clinic'),
         'rookies-age': f'<p class="section-intro">FUN-damentals and Tee Ball are open to boys and girls. Tee Ball uses your child’s age on {rookies_cutoff}. {rookies_exception}</p>',
         'clinic-summary': clinic_summary,
         'clinic-schedule': clinic_tables(clinics),
-        'clinic-registration': clinic_tables(clinics, registration=True),
-        'clinic-listing-link': f'<p class="section-action"><a href="{escape(clinics["sessions_url"], quote=True)}">View all programs in Sports Connect</a></p>',
-        'rookies-registration': cards(registration_programs['rookies'], 'rookies', True, season['registration_url']),
+        'clinic-registration': clinic_tables(clinics, registration=clinic_registration['open']),
+        'clinic-listing-link': clinic_cta,
+        'rookies-registration': cards(registration_programs['rookies'], 'rookies', True, season['registration_url'], spring_registration['open']),
         'home-label': f'                {label} Registration',
         'home-dates': f'''            <h3>Opening Day</h3>
             <p>{opening}, weather permitting.</p>
@@ -201,7 +238,7 @@ def regions(season):
         blocks[f'guide-{sport}-practices'] = f'                <p>{escape(program["practices"])}</p>'
         for registration in (False, True):
             suffix = 'registration' if registration else 'programs'
-            blocks[f'{sport}-{suffix}'] = cards(registration_programs[sport] if registration else program, sport, registration, season['registration_url'])
+            blocks[f'{sport}-{suffix}'] = cards(registration_programs[sport] if registration else program, sport, registration, season['registration_url'], spring_registration['open'])
     return blocks
 
 
@@ -214,7 +251,22 @@ def main():
     ids.extend(session['id'] for group in season['winter_clinics']['groups'] for session in group['sessions'])
     if len(set(ids)) != len(ids) or any(not re.fullmatch(r'[0-9]+', key) for key in ids):
         parser.error('Each division must have a unique numeric Sports Connect ID.')
+    for group in ('spring', 'winter_clinics'):
+        settings = season['registration'][group]
+        if not isinstance(settings['open'], bool):
+            parser.error(f'Registration setting {group}.open must be true or false.')
+        deadline = settings['deadline']
+        if deadline is not None:
+            try:
+                if date.fromisoformat(deadline).isoformat() != deadline:
+                    raise ValueError
+            except (ValueError, TypeError):
+                parser.error(f'Registration setting {group}.deadline must be YYYY-MM-DD or null.')
+    donations = json.loads((ROOT / 'data/donations.json').read_text(encoding='utf-8'))
     blocks = regions(season)
+    blocks['donation-tiers'] = gift_levels(donations)
+    supporter_items = '\n'.join(f'            <li>{escape(name)}</li>' for name in donations['supporters'])
+    blocks['donation-supporters'] = f'        <ul>\n{supporter_items}\n        </ul>'
     pattern = re.compile(r'(<!-- season:([\w-]+) -->)\n.*?\n(<!-- /season:\2 -->)', re.S)
     stale = []
     header_pattern = re.compile(r'<header class="site-header">.*?</header>', re.S)

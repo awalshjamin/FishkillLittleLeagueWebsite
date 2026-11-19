@@ -14,6 +14,10 @@
   "season_end": "the last weekend of June",
   "volunteer_fee": 50,
   "refund_hours": 72,
+  "registration": {
+    "spring": { "open": true, "deadline": null },
+    "winter_clinics": { "open": true, "deadline": null }
+  },
   "registration_url": "https://registration.bluesombrero.com/21201/available-programs",
   "programs": {
     "baseball": {
