@@ -15,7 +15,12 @@
   "volunteer_fee": 50,
   "refund_hours": 72,
   "registration": {
-    "spring": { "open": true, "deadline": null },
+    "spring": {
+      "open": true,
+      "deadline": "2027-04-01",
+      "clinic_signup_target": "2027-01-08",
+      "roster_planning_target": "2027-03-03"
+    },
     "winter_clinics": { "open": true, "deadline": null }
   },
   "registration_url": "https://registration.bluesombrero.com/21201/available-programs",

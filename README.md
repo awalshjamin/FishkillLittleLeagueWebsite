@@ -39,6 +39,7 @@ Under `registration` in `data/season.json`, edit `spring` for Baseball, Softball
 
 - `"open": true` allows signup links. Use `"open": false` to close immediately after deployment and remove that group's signup links from generated HTML.
 - `"deadline": null` leaves the deadline unset. Set a date in `YYYY-MM-DD` format to show it on the site. That date is the final day to register, through 11:59 p.m. Eastern. With JavaScript enabled, the site shows the group as closed and removes its signup links starting the next day.
+- Spring also supports optional `clinic_signup_target` and `roster_planning_target` dates. Enter them in chronological order before the spring deadline. The homepage highlights the next milestone and the registration page shows the remaining ones. Messages change after each target date in Eastern time while signup stays open. The clinic target is a planning date for families and does not change the separate Winter Clinics closing setting.
 
 Run `python3 scripts/update-season.py` (or `py -3 scripts/update-season.py` on Windows) and commit both the data and generated pages. Set the matching cutoff in Sports Connect as well. Sports Connect controls whether submissions are accepted, including when someone follows a saved link or has JavaScript disabled.
 
@@ -46,4 +47,4 @@ Run `python3 scripts/update-season.py` (or `py -3 scripts/update-season.py` on W
 
 Edit the `tiers` array in `data/donations.json`. Each entry has an `amount` in whole dollars and a `description` for the recognition or benefit. The Donations page displays tiers in the order listed. Run the same site update script and commit the JSON and generated page.
 
-Add or remove names in the `supporters` array in the same file to update the Donations page’s thank-you list. Names display in the order listed.
+Add approved public names to the `supporters` array. The page displays them alphabetically, with names beyond the first eight in an expandable list. Use `featured_supporters` for a short list of supporters the league wants to recognize more prominently, such as a major gift or an in-kind contribution. Featured names display in the order listed and are omitted from the general list if present in both arrays. Keep anonymous names and gift amounts out of the public JSON. Regenerate the page after updating either list.

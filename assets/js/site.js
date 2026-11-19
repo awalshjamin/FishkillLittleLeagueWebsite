@@ -38,8 +38,9 @@ compactHeader.addEventListener("change", updateMenuLayout);
 updateMenuLayout();
 
 const registrationStatuses = document.querySelectorAll("[data-registration-deadline]");
+const registrationMilestones = document.querySelectorAll("[data-registration-milestones]");
 
-if (registrationStatuses.length) {
+if (registrationStatuses.length || registrationMilestones.length) {
     const easternDate = new Intl.DateTimeFormat("en-US", {
         timeZone: "America/New_York",
         year: "numeric",
@@ -52,6 +53,17 @@ if (registrationStatuses.length) {
             easternDate.formatToParts(new Date()).map(({ type, value }) => [type, value])
         );
         const today = `${parts.year}-${parts.month}-${parts.day}`;
+
+        for (const group of registrationMilestones) {
+            let nextShown = false;
+            for (const message of group.querySelectorAll("[data-through]")) {
+                const active = today <= message.dataset.through
+                    && (!message.dataset.after || today > message.dataset.after);
+                message.hidden = !active || (nextShown && group.hasAttribute("data-next-milestone"));
+                nextShown ||= !message.hidden;
+            }
+            group.hidden = !nextShown;
+        }
 
         for (const status of registrationStatuses) {
             if (today <= status.dataset.registrationDeadline) continue;

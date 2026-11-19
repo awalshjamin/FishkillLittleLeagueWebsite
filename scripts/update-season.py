@@ -71,6 +71,64 @@ def registration_status(group, settings, name):
     )
 
 
+def spring_milestones(settings, prefix):
+    if not settings['open']:
+        return ''
+    clinic = settings.get('clinic_signup_target')
+    roster = settings.get('roster_planning_target')
+    deadline = settings['deadline']
+    messages = []
+    if clinic:
+        messages.append(
+            f'<p data-through="{clinic}"><strong>Planning to attend Winter Clinics? Sign up by '
+            f'{time_tag(clinic)}.</strong> Spots are limited, and players must be enrolled in the spring season to participate. '
+            f'<a href="{prefix}#winter-clinic-registration">See clinic registration</a>.</p>'
+        )
+    if roster:
+        messages.append(
+            f'<p data-through="{roster}"><strong>Register by {time_tag(roster)} to help us form teams and order uniforms.</strong></p>'
+        )
+    if deadline:
+        after = roster or clinic
+        after_attribute = f' data-after="{after}" hidden' if after else ''
+        messages.append(
+            f'<p data-through="{deadline}"{after_attribute}>Spring registration remains open in divisions with space. '
+            f'If your player needs an alternate evaluation, <a href="mailto:president@fishkilllittleleague.org?subject=Alternate%20player%20evaluation">email the league</a>.</p>'
+        )
+    if not messages:
+        return ''
+    mode = ' data-next-milestone' if prefix else ''
+    return f'<div class="section-intro" data-registration-milestones{mode}>\n' + '\n'.join(messages) + '\n</div>'
+
+
+def supporter_list(names, style):
+    items = '\n'.join(f'            <li>{escape(name)}</li>' for name in names)
+    return f'        <ul class="{style}" role="list">\n{items}\n        </ul>'
+
+
+def supporter_recognition(donations):
+    featured = donations.get('featured_supporters', [])
+    names = sorted(
+        (name for name in donations['supporters'] if name not in featured),
+        key=str.casefold,
+    )
+    sections = []
+    if featured:
+        sections.append('        <h3>Featured supporters</h3>')
+        sections.append(supporter_list(featured, 'supporter-list featured-supporters'))
+    if names:
+        sections.append('        <h3>League supporters</h3>')
+        sections.append(supporter_list(names[:8], 'supporter-list'))
+    if len(names) > 8:
+        sections.extend([
+            '        <details class="supporter-directory">',
+            '            <summary>See more league supporters</summary>',
+            supporter_list(names[8:], 'supporter-list'),
+            '        </details>',
+        ])
+    return '\n'.join(sections)
+
+
 def gift_levels(donations):
     return '\n'.join(
         f'            <div><h3>${tier["amount"]:,}</h3><p>{escape(tier["description"])}</p></div>'
@@ -195,6 +253,8 @@ def regions(season):
     rookies_exception = escape(season['rookies_age_exception'])
     blocks = {
         'spring-registration-status': registration_status('spring', spring_registration, 'Spring'),
+        'home-registration-milestones': spring_milestones(spring_registration, './register/'),
+        'register-milestones': spring_milestones(spring_registration, ''),
         'clinic-registration-status': registration_status('winter_clinics', clinic_registration, 'Winter clinic'),
         'rookies-age': f'<p class="section-intro">FUN-damentals and Tee Ball are open to boys and girls. Tee Ball uses your child’s age on {rookies_cutoff}. {rookies_exception}</p>',
         'clinic-summary': clinic_summary,
@@ -255,18 +315,24 @@ def main():
         settings = season['registration'][group]
         if not isinstance(settings['open'], bool):
             parser.error(f'Registration setting {group}.open must be true or false.')
-        deadline = settings['deadline']
-        if deadline is not None:
+        for key in ('deadline', 'clinic_signup_target', 'roster_planning_target'):
+            value = settings.get(key)
+            if value is None:
+                continue
             try:
-                if date.fromisoformat(deadline).isoformat() != deadline:
+                if date.fromisoformat(value).isoformat() != value:
                     raise ValueError
             except (ValueError, TypeError):
-                parser.error(f'Registration setting {group}.deadline must be YYYY-MM-DD or null.')
+                parser.error(f'Registration setting {group}.{key} must be YYYY-MM-DD or null.')
+    spring = season['registration']['spring']
+    dates = [spring.get(key) for key in ('clinic_signup_target', 'roster_planning_target', 'deadline')]
+    dates = [value for value in dates if value]
+    if dates != sorted(set(dates)):
+        parser.error('Spring registration milestones must be in order and precede the final deadline.')
     donations = json.loads((ROOT / 'data/donations.json').read_text(encoding='utf-8'))
     blocks = regions(season)
     blocks['donation-tiers'] = gift_levels(donations)
-    supporter_items = '\n'.join(f'            <li>{escape(name)}</li>' for name in donations['supporters'])
-    blocks['donation-supporters'] = f'        <ul>\n{supporter_items}\n        </ul>'
+    blocks['donation-supporters'] = supporter_recognition(donations)
     pattern = re.compile(r'(<!-- season:([\w-]+) -->)\n.*?\n(<!-- /season:\2 -->)', re.S)
     stale = []
     header_pattern = re.compile(r'<header class="site-header">.*?</header>', re.S)
