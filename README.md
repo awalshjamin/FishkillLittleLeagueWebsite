@@ -28,3 +28,7 @@ The generator replaces the content between matching `season` comments. Edit fami
 Add the new photo under `assets/images/`. In the page’s `index.html`, update the `src`, `width` and `height` on the `hero-image` element. Keep `./assets/` on the homepage and `../assets/` on pages in subfolders. The hero is decorative behind the page heading, so leave its alternative text empty.
 
 If the same photo is used for social previews, update the Open Graph image URL, dimensions and description, the Twitter image URL and description, and `primaryImageOfPage` in the page’s structured data. Preview the page on a narrow phone and a desktop to check the crop.
+
+## Update the main navigation
+
+Edit `HEADER_LINKS` in `scripts/update-season.py`, then run `python3 scripts/update-season.py` to regenerate the header on every page. Commit the script and updated HTML together. Use `python3 scripts/update-season.py --check` to detect any pages with stale navigation.

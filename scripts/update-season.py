@@ -1,4 +1,4 @@
-"""Render editable season data into plain HTML for GitHub Pages."""
+"""Render season content and shared navigation into plain HTML for GitHub Pages."""
 import argparse
 from datetime import date
 from html import escape
@@ -7,6 +7,44 @@ from pathlib import Path
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+HEADER_LINKS = (
+    ('baseball', 'Baseball'),
+    ('softball', 'Softball'),
+    ('winter-clinics', 'Winter Clinics'),
+    ('register', 'Register'),
+    ('fields', 'Fields'),
+    ('volunteer', 'Volunteer'),
+    ('sponsors', 'Sponsors'),
+    ('donations', 'Donations'),
+    ('history', 'History'),
+    ('about', 'About'),
+)
+
+
+def site_header(page):
+    section = '' if page.parent == ROOT else page.parent.name
+    root = './' if not section else '../'
+    current = ' aria-current="page"' if not section else ''
+    links = []
+    for slug, label in HEADER_LINKS:
+        active = ' aria-current="page"' if slug == section else ''
+        links.append(f'            <a href="{root}{slug}/"{active}>{label}</a>')
+    navigation = '\n'.join(links)
+    return f"""<header class="site-header">
+    <div class="header-inner container">
+        <a class="logo-container" href="{root}" aria-label="Fishkill Little League home"{current}>
+            <img src="{root}assets/logos/fishkill-logo.png" alt="" width="1563" height="1563">
+            <span>Fishkill Little League</span>
+        </a>
+        <button id="mobile-menu-button" type="button" aria-controls="nav-menu" aria-expanded="false" hidden>Menu</button>
+        <nav id="nav-menu" aria-label="Main navigation">
+{navigation}
+        </nav>
+    </div>
+</header>"""
+
 
 
 def date_text(value, weekday=False):
@@ -179,17 +217,20 @@ def main():
     blocks = regions(season)
     pattern = re.compile(r'(<!-- season:([\w-]+) -->)\n.*?\n(<!-- /season:\2 -->)', re.S)
     stale = []
-    for page in ('index.html', 'baseball/index.html', 'softball/index.html', 'register/index.html', 'first-season/index.html', 'winter-clinics/index.html'):
-        path = ROOT / page
+    header_pattern = re.compile(r'<header class="site-header">.*?</header>', re.S)
+    for path in [ROOT / 'index.html', *sorted(ROOT.glob('*/index.html'))]:
         current = path.read_text(encoding='utf-8')
         updated = pattern.sub(lambda m: f'{m[1]}\n{blocks[m[2]]}\n{m[3]}', current)
+        updated, header_count = header_pattern.subn(lambda _: site_header(path), updated)
+        if header_count != 1:
+            parser.error(f'Expected one site header in {path.relative_to(ROOT)}.')
         if current != updated:
             if args.check:
-                stale.append(page)
+                stale.append(str(path.relative_to(ROOT)))
             else:
                 path.write_text(updated, encoding='utf-8')
     if stale:
-        parser.exit(1, 'Regenerate season content in: ' + ', '.join(stale) + '\n')
+        parser.exit(1, 'Regenerate site content in: ' + ', '.join(stale) + '\n')
 
 
 if __name__ == '__main__':
