@@ -1,13 +1,38 @@
-document.addEventListener("DOMContentLoaded", () => {
+const menuButton = document.querySelector("#mobile-menu-button");
+const navigation = document.querySelector("#nav-menu");
+const compactHeader = window.matchMedia("(max-width: 67.499rem)");
 
-    const button =
-        document.getElementById("mobile-menu-button");
+function setMenuOpen(open) {
+    menuButton.setAttribute("aria-expanded", String(open));
+    navigation.hidden = compactHeader.matches && !open;
+}
 
-    const nav =
-        document.getElementById("nav-menu");
+function updateMenuLayout() {
+    const focusedInNav = navigation.contains(document.activeElement);
+    const focusedOnButton = document.activeElement === menuButton;
 
-    button.addEventListener("click", () => {
-        nav.classList.toggle("show");
-    });
+    menuButton.hidden = !compactHeader.matches;
+    setMenuOpen(false);
 
+    if (compactHeader.matches && focusedInNav) {
+        menuButton.focus();
+    }
+
+    if (!compactHeader.matches && focusedOnButton) {
+        navigation.querySelector("[aria-current='page']").focus();
+    }
+}
+
+menuButton.addEventListener("click", () => {
+    setMenuOpen(menuButton.getAttribute("aria-expanded") === "false");
 });
+
+document.querySelector(".site-header").addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && menuButton.getAttribute("aria-expanded") === "true") {
+        setMenuOpen(false);
+        menuButton.focus();
+    }
+});
+
+compactHeader.addEventListener("change", updateMenuLayout);
+updateMenuLayout();
