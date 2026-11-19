@@ -38,7 +38,11 @@
             6
           ],
           "fee": 75,
-          "description": "Learn the basics by hitting from a tee. Monday practice and Saturday games."
+          "description": "Learn the basics by hitting from a tee. Practices are on Mondays, with games on Saturdays at 1:30 p.m.",
+          "overview": {
+            "name": "Tee Ball",
+            "description": "Learn the basics by hitting from a tee. Choose Monday or Tuesday practice when you register."
+          }
         },
         {
           "id": "131610877",
@@ -48,7 +52,8 @@
             6
           ],
           "fee": 75,
-          "description": "Learn the basics by hitting from a tee. Tuesday practice and Saturday games at 10 a.m."
+          "description": "Learn the basics by hitting from a tee. Practices are on Tuesdays, with games on Saturdays at 10 a.m.",
+          "registration_only": true
         },
         {
           "id": "131602903",

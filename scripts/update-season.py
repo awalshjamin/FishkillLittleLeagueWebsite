@@ -22,7 +22,10 @@ def time_tag(value, weekday=False):
 def cards(program, sport, registration, base_url):
     output = ['        <div class="division-grid">']
     for item in program['divisions']:
-        name = escape(item['name'], quote=True)
+        if not registration and item.get('registration_only'):
+            continue
+        display = item if registration else item.get('overview', item)
+        name = escape(display['name'], quote=True)
         key = item['id']
         low, high = item['ages']
         ages = f'Age {low}' if low == high else f'Ages {low}–{high}'
@@ -42,7 +45,7 @@ def cards(program, sport, registration, base_url):
             f'            <article class="division-card" id="{anchor}">',
             f'                <h3>{name}</h3>',
             f'                <p class="division-meta">{ages}{fee}</p>',
-            f'                <p>{escape(item["description"])}</p>',
+            f'                <p>{escape(display["description"])}</p>',
             f'                <a class="btn-primary" href="{escape(href, quote=True)}" aria-label="{label}">{cta}</a>',
             '            </article>',
         ])
