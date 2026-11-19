@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://fishkilllittleleague.org/sitemap.xml
+Sitemap: https://playfishkill.org/sitemap.xml
