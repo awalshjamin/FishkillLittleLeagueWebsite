@@ -313,6 +313,11 @@ p:last-child { margin-bottom: 0; }
 
 .registration-links h3 { color: var(--fll-blue); }
 
+.registration-links nav[aria-labelledby="register-program-links"] {
+    align-self: start;
+    padding: .9rem 1rem;
+}
+
 .registration-program-links,
 .registration-help-links {
     list-style: none;
@@ -321,10 +326,10 @@ p:last-child { margin-bottom: 0; }
 }
 
 .registration-program-links {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 8rem), 1fr));
-    gap: .5rem;
-    margin-top: .75rem;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 1rem;
+    margin-top: .25rem;
 }
 
 .registration-program-links a,
@@ -332,12 +337,6 @@ p:last-child { margin-bottom: 0; }
     display: flex;
     align-items: center;
     min-height: 44px;
-}
-
-.registration-program-links a {
-    padding-inline: .75rem;
-    border: 1px solid #d6dbe2;
-    border-radius: .5rem;
 }
 
 .registration-help-links li + li { border-top: 1px solid #d6dbe2; }
