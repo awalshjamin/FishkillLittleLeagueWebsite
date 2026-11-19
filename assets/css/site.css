@@ -372,3 +372,11 @@ p:last-child { margin-bottom: 0; }
 .sponsor-jersey-photo figcaption { margin-top: .75rem; }
 
 .tournament-photos { display: grid; gap: 1.25rem; }
+
+.campaign-gift-levels {
+    max-width: 44rem;
+    margin-inline: auto;
+    text-align: center;
+}
+
+.campaign-gift-levels h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
