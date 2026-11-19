@@ -247,3 +247,11 @@ p:last-child { margin-bottom: 0; }
 .family-guide h2 { text-align: start; }
 .family-guide h2:not(:first-child) { margin-top: 2.5rem; }
 .family-guide h3 { margin: 1.25rem 0 .5rem; }
+
+.history-chapter:nth-of-type(odd) { background: white; }
+.history-chapter .two-column { margin-top: 0; }
+.history-chapter figure { margin: 0; }
+.history-chapter figcaption { margin-top: .75rem; }
+.history-jump { padding-inline-start: 1.25rem; }
+.history-jump a, .footer-social a { display: inline-flex; align-items: center; min-height: 44px; }
+.history-chapter summary { cursor: pointer; font-weight: 700; padding-block: .65rem; }
