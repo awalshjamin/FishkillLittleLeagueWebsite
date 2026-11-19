@@ -140,10 +140,10 @@ def regions(season):
             <div><h3>Player evaluations</h3><p>{evaluation} {attendance} {alternate} Players are assigned a slot of {escape(evaluations["slot"])}. Details are expected in {escape(evaluations["details_release"])}.</p></div>
             <div><h3>Opening Day</h3><p>{opening}, weather permitting. Rain date {rain}. Ceremony details are expected in {escape(season["opening_details_release"])}.</p></div>
             <div><h3>Volunteer fee</h3><p>{volunteer}</p></div>
-        </div>
-        <p class="section-intro">{uniform}</p>
-        <p class="section-intro">{payment}</p>
-        <p class="section-intro">{refund}</p>''',
+            <div><h3>Uniforms &amp; equipment</h3><p>{uniform}</p></div>
+            <div><h3>Payment plans &amp; financial assistance</h3><p>{payment}</p></div>
+            <div><h3>Refund policy</h3><p>{refund}</p></div>
+        </div>''',
         'guide-season': f'''                <p>{evaluation} {attendance} {alternate} Expect an assigned slot of {escape(evaluations["slot"])} and more details in {escape(evaluations["details_release"])}.</p>
                 <p>Opening Day is {opening}, weather permitting. The rain date is {rain}. Games run through {escape(season["season_end"])}.</p>''',
         'guide-schedule': f'        <p>{escape(season["team_schedule"])} {escape(season["weeknight_games"])} {escape(season["possible_travel"])}</p>',
