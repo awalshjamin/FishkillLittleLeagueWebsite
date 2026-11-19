@@ -18,7 +18,7 @@
   "programs": {
     "baseball": {
       "cutoff": "2027-08-31",
-      "placement_note": "Tee Ball has its own eligibility dates. Check the Tee Ball options in Sports Connect for birthday eligibility. FUN-damentals players must be 4 by the start of the season.",
+      "placement_note": "Tee Ball has its own eligibility dates. See the Rookies registration options for FUN-damentals and Tee Ball.",
       "practices": "Practices generally start in March. Tee Ball practices begin after Opening Day.",
       "divisions": [
         {
@@ -29,7 +29,8 @@
             4
           ],
           "fee": 25,
-          "description": "A parent-and-player introduction to throwing, catching, hitting and running the bases."
+          "description": "A parent-and-player introduction to throwing, catching, hitting and running the bases.",
+          "rookie": true
         },
         {
           "id": "131612323",
@@ -43,7 +44,8 @@
           "overview": {
             "name": "Tee Ball",
             "description": "Boys and girls learn the basics by hitting from a tee. Choose Monday or Tuesday practice when you register."
-          }
+          },
+          "rookie": true
         },
         {
           "id": "131610877",
@@ -54,7 +56,8 @@
           ],
           "fee": 75,
           "description": "Boys and girls learn the basics by hitting from a tee. Practices are on Tuesdays, with games on Saturdays at 10 a.m.",
-          "registration_only": true
+          "registration_only": true,
+          "rookie": true
         },
         {
           "id": "131602903",
@@ -190,5 +193,81 @@
   "possible_travel": "Some teams may travel to play neighboring leagues in Philipstown, Wappingers Falls, Hyde Park or Red Hook.",
   "weeknight_games": "Majors baseball often plays on Tuesdays and Minors baseball often plays on Wednesdays. Those nights can change. The league schedules games with pitcher arm care and required rest days in mind.",
   "payment_options": "Payment plans and financial assistance are available.",
-  "uniform": "A jersey and hat are included in the registration price. Players should wear athletic bottoms. In player-pitch divisions, plastic molded cleats are required and baseball or softball pants are recommended."
+  "uniform": "A jersey and hat are included in the registration price. Players should wear athletic bottoms. In player-pitch divisions, plastic molded cleats are required and baseball or softball pants are recommended.",
+  "winter_clinics": {
+    "starts": "2027-01-09",
+    "ends": "2027-02-28",
+    "sessions_url": "https://tshq.bluesombrero.com/Default.aspx?tabid=1312603",
+    "fee": 50,
+    "groups": [
+      {
+        "day": "Saturday",
+        "location": "Trugo16",
+        "address": "146 Old Route 9, Suite 4, Fishkill, NY 12524",
+        "sessions": [
+          {
+            "id": "131612732",
+            "name": "Baseball 10U pitchers",
+            "time": "5–6 p.m.",
+            "signup_url": "https://tshq.bluesombrero.com/Default.aspx?tabid=1312606&returnurl=%2fDefault.aspx%3ftabid%3d1326830%26familyid%3d0%26frompage%3dreglisting%26DivisionId%3d131612732"
+          },
+          {
+            "id": "131612733",
+            "name": "Baseball 11+ catchers",
+            "time": "5–6 p.m.",
+            "signup_url": "https://tshq.bluesombrero.com/Default.aspx?tabid=1312606&returnurl=%2fDefault.aspx%3ftabid%3d1326830%26familyid%3d0%26frompage%3dreglisting%26DivisionId%3d131612733"
+          },
+          {
+            "id": "131612731",
+            "name": "Baseball 10U catchers",
+            "time": "6–7 p.m.",
+            "signup_url": "https://tshq.bluesombrero.com/Default.aspx?tabid=1312606&returnurl=%2fDefault.aspx%3ftabid%3d1326830%26familyid%3d0%26frompage%3dreglisting%26DivisionId%3d131612731"
+          },
+          {
+            "id": "131612734",
+            "name": "Baseball 11+ pitchers",
+            "time": "6–7 p.m.",
+            "signup_url": "https://tshq.bluesombrero.com/Default.aspx?tabid=1312606&returnurl=%2fDefault.aspx%3ftabid%3d1326830%26familyid%3d0%26frompage%3dreglisting%26DivisionId%3d131612734"
+          }
+        ]
+      },
+      {
+        "day": "Sunday",
+        "location": "Brinckerhoff Elementary School",
+        "address": "16 Wedgewood Road, Fishkill, NY 12524",
+        "sessions": [
+          {
+            "id": "131612717",
+            "name": "Softball",
+            "time": "Noon–1 p.m.",
+            "signup_url": "https://tshq.bluesombrero.com/Default.aspx?tabid=1312606&returnurl=%2fDefault.aspx%3ftabid%3d1326830%26familyid%3d0%26frompage%3dreglisting%26DivisionId%3d131612717"
+          },
+          {
+            "id": "131612718",
+            "name": "Baseball 7U",
+            "time": "1–2 p.m.",
+            "signup_url": "https://tshq.bluesombrero.com/Default.aspx?tabid=1312606&returnurl=%2fDefault.aspx%3ftabid%3d1326830%26familyid%3d0%26frompage%3dreglisting%26DivisionId%3d131612718"
+          },
+          {
+            "id": "131612719",
+            "name": "Baseball 10U",
+            "time": "2–3 p.m.",
+            "signup_url": "https://tshq.bluesombrero.com/Default.aspx?tabid=1312606&returnurl=%2fDefault.aspx%3ftabid%3d1326830%26familyid%3d0%26frompage%3dreglisting%26DivisionId%3d131612719"
+          },
+          {
+            "id": "131612721",
+            "name": "Baseball Majors",
+            "time": "3–4:30 p.m.",
+            "signup_url": "https://tshq.bluesombrero.com/Default.aspx?tabid=1312606&returnurl=%2fDefault.aspx%3ftabid%3d1326830%26familyid%3d0%26frompage%3dreglisting%26DivisionId%3d131612721"
+          },
+          {
+            "id": "131612722",
+            "name": "Baseball Intermediate, Junior & Senior",
+            "time": "4:30–6 p.m.",
+            "signup_url": "https://tshq.bluesombrero.com/Default.aspx?tabid=1312606&returnurl=%2fDefault.aspx%3ftabid%3d1326830%26familyid%3d0%26frompage%3dreglisting%26DivisionId%3d131612722"
+          }
+        ]
+      }
+    ]
+  }
 }

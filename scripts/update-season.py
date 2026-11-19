@@ -32,7 +32,7 @@ def cards(program, sport, registration, base_url):
         if registration:
             href = f'{base_url}?divisionId={key}'
             cta = 'Register'
-            label = f'Register for {sport.title()} {name}'
+            label = f'Register for {name}' if sport == 'rookies' else f'Register for {sport.title()} {name}'
             anchor = f'division-{key}'
             fee = f' <span aria-hidden="true">·</span> <span>${item["fee"]}</span>'
         else:
@@ -69,6 +69,31 @@ def division_table(sport, program):
         </table>"""
 
 
+def clinic_tables(clinics, registration=False):
+    tables = []
+    for group in clinics['groups']:
+        venue = escape(group['location'])
+        day = escape(group['day'])
+        rows = []
+        for session in group['sessions']:
+            name = escape(session['name'])
+            if registration:
+                href = escape(session["signup_url"], quote=True)
+                name = f'<a href="{href}">{name}</a>'
+            rows.append(f'                <tr><th scope="row">{name}</th><td>{escape(session["time"])}</td></tr>')
+        tables.append(f"""        <div>
+            <table class="division-table">
+                <caption>{day} at {venue}</caption>
+                <thead><tr><th scope="col">Clinic</th><th scope="col">Time</th></tr></thead>
+                <tbody>
+{chr(10).join(rows)}
+                </tbody>
+            </table>
+            <p>{escape(group['address'])}</p>
+        </div>""")
+    return '        <div class="division-table-grid">\n' + '\n'.join(tables) + '\n        </div>'
+
+
 def regions(season):
     label = escape(season['label'])
     opening = time_tag(season['opening_day'], weekday=True)
@@ -82,7 +107,23 @@ def regions(season):
     uniform = escape(season['uniform'])
     volunteer = f'The league charges one refundable ${season["volunteer_fee"]} volunteer fee per family. The fee is returned at the end of the season after the family volunteers.'
     refund = f'After {season["refund_hours"]} hours from registration submission, refunds require a medical note stating the player cannot participate this season.'
+    registration_programs = {'rookies': {'divisions': [
+        item for item in season['programs']['baseball']['divisions'] if item.get('rookie')
+    ]}}
+    for sport, program in season['programs'].items():
+        registration_programs[sport] = {'divisions': [
+            item for item in program['divisions'] if not item.get('rookie')
+        ]}
+    clinics = season['winter_clinics']
+    start = time_tag(clinics['starts'])
+    end = time_tag(clinics['ends'])
+    clinic_summary = f'<p class="section-intro">Clinics run from {start} through {end}. Each clinic costs ${clinics["fee"]}. <strong>Players must be registered for Fishkill Little League’s {label} season to participate.</strong></p>'
     blocks = {
+        'clinic-summary': clinic_summary,
+        'clinic-schedule': clinic_tables(clinics),
+        'clinic-registration': clinic_tables(clinics, registration=True),
+        'clinic-listing-link': f'<p class="section-action"><a href="{escape(clinics["sessions_url"], quote=True)}">View all programs in Sports Connect</a></p>',
+        'rookies-registration': cards(registration_programs['rookies'], 'rookies', True, season['registration_url']),
         'home-label': f'                {label} Registration',
         'home-dates': f'''            <h3>Opening Day</h3>
             <p>{opening}, weather permitting.</p>
@@ -106,7 +147,7 @@ def regions(season):
         'guide-uniform': f'        <p>{uniform}</p>',
         'guide-payment': f'        <p>{payment}</p>',
         'division-tables': '        <div class="division-table-grid">\n' + '\n'.join(
-            division_table(sport, program) for sport, program in season['programs'].items()
+            division_table(sport, program) for sport, program in registration_programs.items()
         ) + '\n        </div>',
         'guide-fee': f'                <p>{volunteer} See <a href="../volunteer/">ways to volunteer</a>, including coaching, serving as a team parent, field maintenance, concessions and fundraising.</p>',
     }
@@ -117,7 +158,7 @@ def regions(season):
         blocks[f'guide-{sport}-practices'] = f'                <p>{escape(program["practices"])}</p>'
         for registration in (False, True):
             suffix = 'registration' if registration else 'programs'
-            blocks[f'{sport}-{suffix}'] = cards(program, sport, registration, season['registration_url'])
+            blocks[f'{sport}-{suffix}'] = cards(registration_programs[sport] if registration else program, sport, registration, season['registration_url'])
     return blocks
 
 
@@ -127,12 +168,13 @@ def main():
     args = parser.parse_args()
     season = json.loads((ROOT / 'data/season.json').read_text(encoding='utf-8'))
     ids = [row['id'] for program in season['programs'].values() for row in program['divisions']]
+    ids.extend(session['id'] for group in season['winter_clinics']['groups'] for session in group['sessions'])
     if len(set(ids)) != len(ids) or any(not re.fullmatch(r'[0-9]+', key) for key in ids):
         parser.error('Each division must have a unique numeric Sports Connect ID.')
     blocks = regions(season)
     pattern = re.compile(r'(<!-- season:([\w-]+) -->)\n.*?\n(<!-- /season:\2 -->)', re.S)
     stale = []
-    for page in ('index.html', 'baseball/index.html', 'softball/index.html', 'register/index.html', 'first-season/index.html'):
+    for page in ('index.html', 'baseball/index.html', 'softball/index.html', 'register/index.html', 'first-season/index.html', 'winter-clinics/index.html'):
         path = ROOT / page
         current = path.read_text(encoding='utf-8')
         updated = pattern.sub(lambda m: f'{m[1]}\n{blocks[m[2]]}\n{m[3]}', current)
