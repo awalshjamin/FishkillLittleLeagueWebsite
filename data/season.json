@@ -18,7 +18,7 @@
   "programs": {
     "baseball": {
       "cutoff": "2027-08-31",
-      "placement_note": "Tee Ball has its own eligibility dates. See the Rookies registration options for FUN-damentals and Tee Ball.",
+      "placement_note": "Tee Ball uses the same cutoff.",
       "practices": "Practices generally start in March. Tee Ball practices begin after Opening Day.",
       "divisions": [
         {
@@ -269,5 +269,6 @@
         ]
       }
     ]
-  }
+  },
+  "rookies_age_exception": "FUN-damentals players must be 4 years old in April 2027."
 }

@@ -118,7 +118,10 @@ def regions(season):
     start = time_tag(clinics['starts'])
     end = time_tag(clinics['ends'])
     clinic_summary = f'<p class="section-intro">Clinics run from {start} through {end}. Each clinic costs ${clinics["fee"]}. <strong>Players must be registered for Fishkill Little League’s {label} season to participate.</strong></p>'
+    rookies_cutoff = time_tag(season['programs']['baseball']['cutoff'])
+    rookies_exception = escape(season['rookies_age_exception'])
     blocks = {
+        'rookies-age': f'<p class="section-intro">FUN-damentals and Tee Ball are open to boys and girls. Tee Ball uses your child’s age on {rookies_cutoff}. {rookies_exception}</p>',
         'clinic-summary': clinic_summary,
         'clinic-schedule': clinic_tables(clinics),
         'clinic-registration': clinic_tables(clinics, registration=True),
@@ -153,6 +156,8 @@ def regions(season):
     }
     for sport, program in season['programs'].items():
         guide_intro = f'{sport.title()} league age is based on your child’s age on {time_tag(program["cutoff"])}. {escape(program["placement_note"])}'
+        if sport == 'baseball':
+            guide_intro += f' {rookies_exception}'
         blocks[f'{sport}-age'] = f'        <p class="section-intro">{guide_intro}</p>'
         blocks[f'guide-{sport}-age'] = f'                <p>{guide_intro}</p>'
         blocks[f'guide-{sport}-practices'] = f'                <p>{escape(program["practices"])}</p>'
