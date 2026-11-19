@@ -255,3 +255,5 @@ p:last-child { margin-bottom: 0; }
 .history-jump { padding-inline-start: 1.25rem; }
 .history-jump a, .footer-social a { display: inline-flex; align-items: center; min-height: 44px; }
 .history-chapter summary { cursor: pointer; font-weight: 700; padding-block: .65rem; }
+
+.footer-social { display: flex; flex-wrap: wrap; gap: 0 1rem; }
