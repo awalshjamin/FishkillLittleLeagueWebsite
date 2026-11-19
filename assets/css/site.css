@@ -257,3 +257,6 @@ p:last-child { margin-bottom: 0; }
 .history-chapter summary { cursor: pointer; font-weight: 700; padding-block: .65rem; }
 
 .footer-social { display: flex; flex-wrap: wrap; gap: 0 1rem; }
+
+.park-map { margin: 0; }
+.park-map figcaption { margin-top: .75rem; }
