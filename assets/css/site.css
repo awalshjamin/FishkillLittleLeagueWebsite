@@ -375,14 +375,9 @@ p:last-child { margin-bottom: 0; }
 .tournament-photos { display: grid; gap: 1.25rem; }
 
 .campaign-donation-form {
-    display: block;
     width: 100%;
     max-width: 44rem;
-    height: 44rem;
     margin: 1rem auto 2rem;
-    border: 0;
-    border-radius: var(--radius);
-    background: var(--fll-white);
 }
 
 #donor-thanks { background: var(--fll-cream); }
