@@ -374,14 +374,6 @@ p:last-child { margin-bottom: 0; }
 
 .tournament-photos { display: grid; gap: 1.25rem; }
 
-.campaign-gift-levels {
-    max-width: 44rem;
-    margin-inline: auto;
-    text-align: center;
-}
-
-.campaign-gift-levels h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
-
 .campaign-donation-form {
     display: block;
     width: 100%;

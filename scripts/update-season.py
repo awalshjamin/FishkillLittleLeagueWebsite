@@ -154,14 +154,6 @@ def supporter_recognition(donations):
     return '\n'.join(sections)
 
 
-def gift_levels(donations):
-    return '\n'.join(
-        f'            <div><h3>${tier["amount"]:,}</h3><p>{escape(tier["description"])}</p></div>'
-        for tier in donations['tiers']
-    )
-
-
-
 def cards(program, sport, registration, base_url, registration_open=True):
     output = ['        <div class="division-grid">']
     for item in program['divisions']:
@@ -356,7 +348,6 @@ def main():
         parser.error('Spring registration milestones must be in order and precede the final deadline.')
     donations = json.loads((ROOT / 'data/donations.json').read_text(encoding='utf-8'))
     blocks = regions(season)
-    blocks['donation-tiers'] = gift_levels(donations)
     blocks['donation-supporters'] = supporter_recognition(donations)
     pattern = re.compile(r'(<!-- season:([\w-]+) -->)\n.*?\n(<!-- /season:\2 -->)', re.S)
     stale = []

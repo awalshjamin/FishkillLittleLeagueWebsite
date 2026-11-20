@@ -43,9 +43,7 @@ Under `registration` in `data/season.json`, edit `spring` for Baseball, Softball
 
 Run `python3 scripts/update-season.py` (or `py -3 scripts/update-season.py` on Windows) and commit both the data and generated pages. Set the matching cutoff in Sports Connect as well. Sports Connect controls whether submissions are accepted, including when someone follows a saved link or has JavaScript disabled.
 
-## Donation tiers and supporters
-
-Edit the `tiers` array in `data/donations.json`. Each entry has an `amount` in whole dollars and a `description` for the recognition or benefit. The Donations page displays tiers in the order listed. Run the same site update script and commit the JSON and generated page.
+## Donation supporters
 
 Add supporters to the `supporters` array using one object per card. Set `name` to the approved public name, `url` to the official website, and `logo` to a repository-relative image path. Use `initial` in place of `logo` for a letter badge. The URL and icon are optional. Edit `name` in the same object to rename a supporter. Icons scale with the rendered card, from 20 to 32 CSS pixels.
 
