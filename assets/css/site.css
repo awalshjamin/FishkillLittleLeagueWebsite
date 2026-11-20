@@ -395,7 +395,7 @@ p:last-child { margin-bottom: 0; }
 .supporter-list li {
     position: relative;
     display: grid;
-    place-items: center;
+    place-items: stretch center;
     margin: 0;
     padding: .75rem 1rem;
     border-radius: var(--radius);
@@ -404,29 +404,77 @@ p:last-child { margin-bottom: 0; }
     overflow-wrap: anywhere;
 }
 
-.supporter-list a::after {
+.supporter-link,
+.supporter-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .4rem;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.supporter-link {
+    text-decoration: none;
+}
+
+.supporter-link > span:last-child {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: .18em;
+}
+
+.supporter-link::after {
     position: absolute;
     inset: 0;
-    border-radius: inherit;
+    border-radius: var(--radius);
     content: "";
 }
 
+.supporter-list li:has(.supporter-link:hover) {
+    background: #f1f5ff;
+}
+
+.supporter-link:focus-visible {
+    outline: none;
+}
+
+.supporter-link:focus-visible::after {
+    outline: 2px solid var(--fll-blue);
+    outline-offset: 2px;
+}
+
+.supporter-link > span:last-child,
+.supporter-label > span:last-child {
+    min-width: 0;
+}
+
+.supporter-icon-slot {
+    position: relative;
+    flex: 0 0 32px;
+    align-self: stretch;
+}
+
+/* The icon follows the card's inner height without contributing to it. */
 .supporter-icon {
     position: absolute;
-    inset-inline-start: 2px;
-    inset-block-start: 50%;
-    transform: translateY(-50%);
-    width: 14px;
-    height: 14px;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    height: clamp(20px, 75%, 32px);
+    aspect-ratio: 1;
     object-fit: contain;
 }
 
 .supporter-initial {
-    border-radius: 3px;
-    background: var(--fll-cream);
-    font-size: 10px;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 4px;
+    background: #eaf0ff;
+    color: var(--fll-blue);
+    font-size: 12px;
     font-weight: 700;
-    line-height: 14px;
+    line-height: 1;
 }
 
 .featured-supporters li {

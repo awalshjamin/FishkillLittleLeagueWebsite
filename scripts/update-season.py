@@ -101,41 +101,54 @@ def spring_milestones(settings, prefix):
     return f'<div class="section-intro" data-registration-milestones{mode}>\n' + '\n'.join(messages) + '\n</div>'
 
 
-def supporter_list(names, style, details):
+def supporter_list(supporters, style):
     items = []
-    for name in names:
-        entry = details.get(name, {})
-        label = escape(name)
-        if url := entry.get('url'):
-            label = f'<a href="{escape(url, quote=True)}">{label}</a>'
+    for entry in supporters:
+        label = escape(entry["name"])
         icon = ''
         if logo := entry.get('logo'):
-            icon = f'<img class="supporter-icon" src="../{escape(logo, quote=True)}" alt="" width="16" height="16" loading="lazy">'
+            icon = f'<img class="supporter-icon" src="../{escape(logo, quote=True)}" alt="" width="20" height="20" loading="lazy">'
         elif initial := entry.get('initial'):
             icon = f'<span class="supporter-icon supporter-initial" aria-hidden="true">{escape(initial)}</span>'
-        items.append(f'            <li>{icon}{label}</li>')
+        if icon:
+            icon = f'<span class="supporter-icon-slot">{icon}</span>'
+        if url := entry.get('url'):
+            content = f'{icon}<span>{label}</span>'
+            label = f'<a class="supporter-link" href="{escape(url, quote=True)}">{content}</a>'
+        elif icon:
+            label = f'<span class="supporter-label">{icon}<span>{label}</span></span>'
+        items.append(f'            <li>{label}</li>')
     return f'        <ul class="{style}" role="list">\n' + '\n'.join(items) + '\n        </ul>'
 
 
+def supporter_entries(entries, details):
+    return [
+        {**details.get(entry, {}), 'name': entry} if isinstance(entry, str) else entry
+        for entry in entries
+    ]
+
+
 def supporter_recognition(donations):
-    featured = donations.get('featured_supporters', [])
     details = donations.get('supporter_details', {})
-    names = sorted(
-        (name for name in donations['supporters'] if name not in featured),
-        key=str.casefold,
+    featured = supporter_entries(donations.get('featured_supporters', []), details)
+    featured_names = {entry['name'] for entry in featured}
+    supporters = sorted(
+        (entry for entry in supporter_entries(donations['supporters'], details)
+         if entry['name'] not in featured_names),
+        key=lambda entry: entry['name'].casefold(),
     )
     sections = []
     if featured:
         sections.append('        <h3>Featured supporters</h3>')
-        sections.append(supporter_list(featured, 'supporter-list featured-supporters', details))
-    if names:
+        sections.append(supporter_list(featured, 'supporter-list featured-supporters'))
+    if supporters:
         sections.append('        <h3>League supporters</h3>')
-        sections.append(supporter_list(names[:8], 'supporter-list', details))
-    if len(names) > 8:
+        sections.append(supporter_list(supporters[:8], 'supporter-list'))
+    if len(supporters) > 8:
         sections.extend([
             '        <details class="supporter-directory">',
             '            <summary>See more league supporters</summary>',
-            supporter_list(names[8:], 'supporter-list', details),
+            supporter_list(supporters[8:], 'supporter-list'),
             '        </details>',
         ])
     return '\n'.join(sections)
