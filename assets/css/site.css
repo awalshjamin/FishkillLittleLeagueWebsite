@@ -382,6 +382,17 @@ p:last-child { margin-bottom: 0; }
 
 .campaign-gift-levels h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
 
+.campaign-donation-form {
+    display: block;
+    width: 100%;
+    max-width: 44rem;
+    height: 44rem;
+    margin: 1rem auto 2rem;
+    border: 0;
+    border-radius: var(--radius);
+    background: var(--fll-white);
+}
+
 #donor-thanks { background: var(--fll-cream); }
 
 .supporter-list {
