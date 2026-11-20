@@ -101,13 +101,25 @@ def spring_milestones(settings, prefix):
     return f'<div class="section-intro" data-registration-milestones{mode}>\n' + '\n'.join(messages) + '\n</div>'
 
 
-def supporter_list(names, style):
-    items = '\n'.join(f'            <li>{escape(name)}</li>' for name in names)
-    return f'        <ul class="{style}" role="list">\n{items}\n        </ul>'
+def supporter_list(names, style, details):
+    items = []
+    for name in names:
+        entry = details.get(name, {})
+        label = escape(name)
+        if url := entry.get('url'):
+            label = f'<a href="{escape(url, quote=True)}">{label}</a>'
+        icon = ''
+        if logo := entry.get('logo'):
+            icon = f'<img class="supporter-icon" src="../{escape(logo, quote=True)}" alt="" width="16" height="16" loading="lazy">'
+        elif initial := entry.get('initial'):
+            icon = f'<span class="supporter-icon supporter-initial" aria-hidden="true">{escape(initial)}</span>'
+        items.append(f'            <li>{icon}{label}</li>')
+    return f'        <ul class="{style}" role="list">\n' + '\n'.join(items) + '\n        </ul>'
 
 
 def supporter_recognition(donations):
     featured = donations.get('featured_supporters', [])
+    details = donations.get('supporter_details', {})
     names = sorted(
         (name for name in donations['supporters'] if name not in featured),
         key=str.casefold,
@@ -115,15 +127,15 @@ def supporter_recognition(donations):
     sections = []
     if featured:
         sections.append('        <h3>Featured supporters</h3>')
-        sections.append(supporter_list(featured, 'supporter-list featured-supporters'))
+        sections.append(supporter_list(featured, 'supporter-list featured-supporters', details))
     if names:
         sections.append('        <h3>League supporters</h3>')
-        sections.append(supporter_list(names[:8], 'supporter-list'))
+        sections.append(supporter_list(names[:8], 'supporter-list', details))
     if len(names) > 8:
         sections.extend([
             '        <details class="supporter-directory">',
             '            <summary>See more league supporters</summary>',
-            supporter_list(names[8:], 'supporter-list'),
+            supporter_list(names[8:], 'supporter-list', details),
             '        </details>',
         ])
     return '\n'.join(sections)

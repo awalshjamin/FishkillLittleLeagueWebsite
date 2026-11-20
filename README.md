@@ -48,3 +48,5 @@ Run `python3 scripts/update-season.py` (or `py -3 scripts/update-season.py` on W
 Edit the `tiers` array in `data/donations.json`. Each entry has an `amount` in whole dollars and a `description` for the recognition or benefit. The Donations page displays tiers in the order listed. Run the same site update script and commit the JSON and generated page.
 
 Add approved public names to the `supporters` array. The page displays them alphabetically, with names beyond the first eight in an expandable list. Use `featured_supporters` for a short list of supporters the league wants to recognize more prominently, such as a major gift or an in-kind contribution. Featured names display in the order listed and are omitted from the general list if present in both arrays. Keep anonymous names and gift amounts out of the public JSON. Regenerate the page after updating either list.
+
+Use `supporter_details` to add a website URL and a small logo to a card. The key must match the public name in either supporter list. Set `url` to the official website and `logo` to a repository-relative image path, or use `initial` for a letter badge.

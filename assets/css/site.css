@@ -393,6 +393,7 @@ p:last-child { margin-bottom: 0; }
 }
 
 .supporter-list li {
+    position: relative;
     display: grid;
     place-items: center;
     margin: 0;
@@ -401,6 +402,31 @@ p:last-child { margin-bottom: 0; }
     background: var(--fll-white);
     text-align: center;
     overflow-wrap: anywhere;
+}
+
+.supporter-list a::after {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    content: "";
+}
+
+.supporter-icon {
+    position: absolute;
+    inset-inline-start: 2px;
+    inset-block-start: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+}
+
+.supporter-initial {
+    border-radius: 3px;
+    background: var(--fll-cream);
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 14px;
 }
 
 .featured-supporters li {

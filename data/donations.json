@@ -16,5 +16,27 @@
     "Town of Fishkill",
     "Town of Fishkill Highway Department",
     "Town of Fishkill Parks and Recreation"
-  ]
+  ],
+  "supporter_details": {
+    "T-Mobile": {
+      "url": "https://www.t-mobile.com/",
+      "logo": "assets/sponsors/21-t-mobile.png"
+    },
+    "Thrivent": {
+      "url": "https://www.thrivent.com/",
+      "initial": "T"
+    },
+    "Town of Fishkill": {
+      "url": "https://www.fishkill-ny.gov/",
+      "logo": "assets/supporters/town-of-fishkill-seal.png"
+    },
+    "Town of Fishkill Highway Department": {
+      "url": "https://www.fishkill-ny.gov/highway.html",
+      "logo": "assets/supporters/town-of-fishkill-seal.png"
+    },
+    "Town of Fishkill Parks and Recreation": {
+      "url": "https://www.fishkillrecreation.com/",
+      "logo": "assets/supporters/town-of-fishkill-seal.png"
+    }
+  }
 }
