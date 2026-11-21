@@ -14,6 +14,7 @@ HEADER_LINKS = (
     ('softball', 'Softball'),
     ('winter-clinics', 'Winter Clinics'),
     ('register', 'Register'),
+    ('season-info', 'Season Info'),
     ('fields', 'Fields'),
     ('volunteer', 'Volunteer'),
     ('sponsors', 'Sponsors'),

@@ -487,3 +487,14 @@ p:last-child { margin-bottom: 0; }
     cursor: pointer;
     font-weight: 700;
 }
+
+.weekly-calendar {
+    overflow-x: auto;
+}
+
+.weekly-calendar iframe {
+    display: block;
+    width: 100%;
+    min-width: 500px;
+    border: 0;
+}
