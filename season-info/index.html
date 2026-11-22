@@ -38,20 +38,20 @@
 </header>
 
 <main id="main-content" tabindex="-1">
-    <section class="section">
+    <section class="section season-calendar">
         <div class="container">
             <h1>Season Info</h1>
-            <h2>Weekly games calendar</h2>
+            <h2>League schedule</h2>
             <p>Times are Eastern. Check GameChanger for last-minute changes or team instructions.</p>
-            <p><a id="schedule-subscribe" href="schedule.ics" hidden>Subscribe to the league schedule</a> <a href="../fields/">Find fields and directions</a>.</p>
-            <div id="schedule-controls" hidden>
+            <p class="schedule-links"><a id="schedule-subscribe" href="schedule.ics" hidden>Subscribe to the league schedule</a> <a href="../fields/">Find fields and directions</a>.</p>
+            <div class="schedule-controls" id="schedule-controls" hidden>
                 <button type="button" id="schedule-previous">Previous week</button>
                 <button type="button" id="schedule-next">Next week</button>
                 <label for="schedule-team">Team</label>
                 <select id="schedule-team"><option value="">All teams</option></select>
             </div>
             <p id="schedule-status" role="status">The league schedule is not available yet.</p>
-            <ul id="schedule-events"></ul>
+            <div class="schedule-week" id="schedule-events"></div>
         </div>
     </section>
 </main>

@@ -59,6 +59,7 @@ def build_schedule(feeds, now):
                 events[key] = dict(
                     title=str(item.get('SUMMARY', 'Team event')),
                     location=str(item.get('LOCATION', '')),
+                    notes=str(item.get('DESCRIPTION', '')),
                     start=start, end=end, cancelled=status == 'CANCELLED', teams={team},
                 )
         except Exception:
@@ -66,7 +67,7 @@ def build_schedule(feeds, now):
     return events
 
 
-def publish(destination, now, events, configured):
+def publish(destination, now, events, teams):
     calendar = Calendar()
     calendar.add('prodid', '-//Fishkill Little League//League Schedule//EN')
     calendar.add('version', '2.0')
@@ -88,7 +89,8 @@ def publish(destination, now, events, configured):
         rows.append({**data, 'start': start.isoformat(), 'end': end.isoformat(),
                      'teams': sorted(data['teams'])})
     (destination / 'schedule.json').write_text(json.dumps({
-        'updated': now.isoformat(), 'configured': configured, 'events': rows,
+        'updated': now.isoformat(), 'configured': bool(teams),
+        'teams': sorted(teams), 'events': rows,
     }), encoding='utf-8')
     (destination / 'schedule.ics').write_bytes(calendar.to_ical())
 
@@ -107,7 +109,7 @@ def main():
         events = build_schedule(feeds, now)
     except ValueError as error:
         sys.exit(str(error))
-    publish(Path(sys.argv[1]), now, events, bool(feeds))
+    publish(Path(sys.argv[1]), now, events, feeds)
     print(f'Published {len(events)} events from {len(feeds)} sources.')
 
 
