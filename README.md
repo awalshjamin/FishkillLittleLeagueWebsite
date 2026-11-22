@@ -52,11 +52,15 @@ The page displays general supporters alphabetically, with names beyond the first
 ## GameChanger league schedule
 
 The Season Info page and its single calendar subscription use the same hourly
-publish job. In GitHub, open Settings → Secrets and variables → Actions and
-create a repository secret named `GAMECHANGER_FEEDS`. Its value is one JSON
-object mapping each public team label to its GameChanger Schedule Sync URL.
-Use HTTPS URLs copied directly from GameChanger. Replace the object at each
-season change to add or remove sources. Keep source URLs out of commits.
+publish job. Edit `data/gamechanger-teams.json` to add, remove or rename teams.
+Each value names a GitHub Actions repository secret beginning with `GC_FEED_`.
+In Settings → Secrets and variables → Actions, create each named secret and
+paste that team's full GameChanger Schedule Sync URL as its value. Keep URLs
+out of commits. Create the two listed clinic secrets before deploying this update.
+
+For local previews, the publisher still accepts the `GAMECHANGER_FEEDS`
+environment variable containing a JSON mapping of team names to URLs. GitHub
+Actions uses the repo configuration and individual secrets.
 
 After merging the patch, set Settings → Pages → Source to **GitHub Actions**.
 Open Actions → Publish website and league schedule and run it manually to
@@ -66,6 +70,5 @@ weekly page and subscription at `/season-info/` after deployment.
 Start with the two clinic feeds. Check a reschedule and cancellation before
 adding every team. The job only knows about changes reflected in the feeds.
 If a source fails, the workflow stops before deploying, so the last published
-site remains available. A missing or empty secret publishes the site with the
-schedule disabled. Matching iCal event IDs are combined; different IDs are
+site remains available. A missing team secret fails the run. An empty team configuration publishes the site with the schedule disabled. Matching iCal event IDs are combined; different IDs are
 shown separately. Check GameChanger for last-minute notices.

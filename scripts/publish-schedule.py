@@ -2,6 +2,7 @@
 import hashlib
 import json
 import os
+import re
 import sys
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -9,8 +10,6 @@ from urllib.parse import urlsplit
 from urllib.request import urlopen
 from zoneinfo import ZoneInfo
 
-from icalendar import Calendar, Event
-import recurring_ical_events
 
 EASTERN = ZoneInfo('America/New_York')
 
@@ -31,6 +30,9 @@ def read_team(url, lower, upper):
         data = response.read(5_000_001)
     if len(data) > 5_000_000:
         raise ValueError('Feed exceeds size limit')
+    from icalendar import Calendar
+    import recurring_ical_events
+
     calendar = Calendar.from_ical(data)
     return recurring_ical_events.of(calendar).between(lower, upper)
 
@@ -70,6 +72,8 @@ def build_schedule(feeds, now):
 
 
 def publish(destination, now, events, teams):
+    from icalendar import Calendar, Event
+
     calendar = Calendar()
     calendar.add('prodid', '-//Fishkill Little League//League Schedule//EN')
     calendar.add('version', '2.0')
@@ -97,7 +101,67 @@ def publish(destination, now, events, teams):
     (destination / 'schedule.ics').write_bytes(calendar.to_ical())
 
 
+def configured_teams():
+    path = Path(__file__).resolve().parents[1] / 'data/gamechanger-teams.json'
+    config = json.loads(path.read_text(encoding='utf-8'))
+    if not isinstance(config, dict) or any(
+        not team.strip() or not isinstance(secret, str)
+        or not re.fullmatch(r'GC_FEED_[A-Z0-9_]+', secret)
+        for team, secret in config.items()
+    ):
+        sys.exit('gamechanger-teams.json must map team names to GC_FEED_ secret names.')
+    return config
+
+
+def snapshot(team, path):
+    url = os.environ.get('GAMECHANGER_FEED')
+    if not url:
+        sys.exit(f'Missing GitHub secret: {configured_teams()[team]}')
+    events = build_schedule({team: url}, datetime.now(timezone.utc))
+    path.write_text(json.dumps([
+        [key, {**event, 'start': event['start'].isoformat(),
+               'end': event['end'].isoformat(), 'teams': sorted(event['teams'])}]
+        for key, event in events.items()
+    ]), encoding='utf-8')
+
+
+def publish_snapshots(directory, destination):
+    teams = configured_teams()
+    events = {}
+    for index in range(len(teams)):
+        path = directory / f'gamechanger-{index}' / 'events.json'
+        for key, event in json.loads(path.read_text(encoding='utf-8')):
+            key = tuple(key)
+            if key in events:
+                events[key]['teams'].update(event['teams'])
+                events[key]['cancelled'] |= event['cancelled']
+                continue
+            for field in ('start', 'end'):
+                value = event[field]
+                event[field] = datetime.fromisoformat(value) if 'T' in value else date.fromisoformat(value)
+            event['teams'] = set(event['teams'])
+            events[key] = event
+    publish(destination, datetime.now(timezone.utc), events, teams)
+    print(f'Published {len(events)} events from {len(teams)} sources.')
+
+
 def main():
+    if sys.argv[1:] == ['--matrix']:
+        config = configured_teams()
+        print(json.dumps({'include': [
+            {'index': index, 'team': team, 'secret': secret}
+            for index, (team, secret) in enumerate(config.items())
+        ]}))
+        return
+    if sys.argv[1:2] == ['--snapshot']:
+        try:
+            snapshot(sys.argv[2], Path(sys.argv[3]))
+        except ValueError as error:
+            sys.exit(str(error))
+        return
+    if sys.argv[1:2] == ['--publish-snapshots']:
+        publish_snapshots(Path(sys.argv[2]), Path(sys.argv[3]))
+        return
     try:
         feeds = json.loads(os.environ.get('GAMECHANGER_FEEDS') or '{}')
     except ValueError:
