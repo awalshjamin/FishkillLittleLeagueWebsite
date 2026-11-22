@@ -527,9 +527,27 @@ p:last-child { margin-bottom: 0; }
 .schedule-event-details { padding: 0 .5rem .5rem; font-size: .85rem; white-space: pre-wrap; }
 .schedule-event-details p { margin: .4rem 0 0; }
 .schedule-event-details strong { display: block; }
-.schedule-week:empty, .schedule-week-empty { display: none; }
+.schedule-week:empty { display: none; }
 @media (max-width: 900px) {
     .schedule-week { grid-template-columns: 1fr; }
     .schedule-day { min-height: 0; }
-    .schedule-day-empty { display: none; }
+    .schedule-week:not(.schedule-week-empty) .schedule-day-empty { display: none; }
 }
+
+
+.schedule-event--shepheard {
+    background: #e5effb;
+    border-inline-start-color: #245ba5;
+    color: #152c53;
+}
+.schedule-event--doug-phillips {
+    background: #fbe9eb;
+    border-inline-start-color: #a82e45;
+    color: #591d2b;
+}
+.schedule-event--other {
+    background: #f0eafb;
+    border-inline-start-color: #7044a0;
+    color: #3c245c;
+}
+.schedule-event-time { color: inherit; }

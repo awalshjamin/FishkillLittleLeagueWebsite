@@ -41,7 +41,9 @@ def build_schedule(feeds, now):
     events = {}
     for number, (team, url) in enumerate(feeds.items(), 1):
         try:
-            for item in read_team(url, lower, upper):
+            items = read_team(url, lower, upper)
+            print(f'Source {number}: {len(items)} event occurrences in the publication window.')
+            for item in items:
                 start = normalized_time(item.decoded('DTSTART'))
                 end = normalized_time(item.decoded('DTEND')) if 'DTEND' in item else (
                     start + item.decoded('DURATION') if 'DURATION' in item else

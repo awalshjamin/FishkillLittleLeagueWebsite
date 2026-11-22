@@ -14,8 +14,16 @@ function dayKey(date) {
     return Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day));
 }
 
+function venueClass(event) {
+    for (const value of [event.location, event.notes]) {
+        if (/\bshepheard(?:\s+memorial)?\s+park\b/i.test(value ?? "")) return "shepheard";
+        if (/\bdoug\s+phil{1,2}ips(?:\s+park)?\b/i.test(value ?? "")) return "doug-phillips";
+    }
+    return "other";
+}
+
 async function showSchedule() {
-    const response = await fetch("schedule.json");
+    const response = await fetch("schedule.json", { cache: "no-cache" });
     if (!response.ok) throw new Error("Schedule unavailable");
     const data = await response.json();
     if (!data.configured) return;
@@ -46,7 +54,7 @@ async function showSchedule() {
             column.classList.toggle("schedule-day-empty", dayEvents.length === 0);
             for (const event of dayEvents) {
                 const card = document.createElement("details");
-                card.className = "schedule-event";
+                card.className = `schedule-event schedule-event--${venueClass(event)}`;
                 const summary = document.createElement("summary");
                 const time = document.createElement("span");
                 time.className = "schedule-event-time";
@@ -72,7 +80,7 @@ async function showSchedule() {
             }
             list.append(column);
         }
-        scheduleStatus.textContent = `Week of ${headingFormat.format(week)} · ${visible.length ? visible.length + (visible.length === 1 ? " event" : " events") : "No events scheduled"}`;
+        scheduleStatus.textContent = `Week of ${headingFormat.format(week)}`;
         list.classList.toggle("schedule-week-empty", visible.length === 0);
     }
     document.querySelector("#schedule-previous").addEventListener("click", () => { week -= 7 * dayMs; render(); });
