@@ -9,6 +9,7 @@
     <link rel="icon" type="image/png" href="../assets/logos/favicon.png">
     <link rel="stylesheet" href="../assets/css/site.css">
     <script src="../assets/js/site.js" defer></script>
+    <script src="../assets/js/schedule.js" defer></script>
 </head>
 <body>
 
@@ -41,11 +42,16 @@
         <div class="container">
             <h1>Season Info</h1>
             <h2>Weekly games calendar</h2>
-            <p>Use the arrows at the top of the calendar to move between weeks. Times are shown in Eastern time. Check your team’s schedule for practices and last-minute changes.</p>
-            <p><a href="https://calendar.google.com/calendar/embed?src=874d5965417c28e0c08c611474e80ee723905bfd35b37802ff652bd90b5b6626%40group.calendar.google.com&amp;ctz=America%2FNew_York&amp;mode=WEEK&amp;showNav=1">Open the weekly calendar in Google Calendar</a> or <a href="../fields/">find your field and directions</a>.</p>
-            <div class="weekly-calendar">
-                <iframe title="Fishkill Little League weekly games calendar" src="https://calendar.google.com/calendar/embed?src=874d5965417c28e0c08c611474e80ee723905bfd35b37802ff652bd90b5b6626%40group.calendar.google.com&amp;ctz=America%2FNew_York&amp;mode=WEEK&amp;showNav=1" width="960" height="640"></iframe>
+            <p>Times are Eastern. Check GameChanger for last-minute changes or team instructions.</p>
+            <p><a id="schedule-subscribe" href="schedule.ics" hidden>Subscribe to the league schedule</a> <a href="../fields/">Find fields and directions</a>.</p>
+            <div id="schedule-controls" hidden>
+                <button type="button" id="schedule-previous">Previous week</button>
+                <button type="button" id="schedule-next">Next week</button>
+                <label for="schedule-team">Team</label>
+                <select id="schedule-team"><option value="">All teams</option></select>
             </div>
+            <p id="schedule-status" role="status">The league schedule is not available yet.</p>
+            <ul id="schedule-events"></ul>
         </div>
     </section>
 </main>

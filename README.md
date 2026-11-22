@@ -48,3 +48,24 @@ Run `python3 scripts/update-season.py` (or `py -3 scripts/update-season.py` on W
 Add supporters to the `supporters` array using one object per card. Set `name` to the approved public name, `url` to the official website, and `logo` to a repository-relative image path. Use `initial` in place of `logo` for a letter badge. The URL and icon are optional. Edit `name` in the same object to rename a supporter. Icons scale with the rendered card, from 20 to 32 CSS pixels.
 
 The page displays general supporters alphabetically, with names beyond the first eight in an expandable list. Use the same object format in `featured_supporters` for more prominent recognition. Featured supporters display in the order listed and are omitted from the general list if the same name appears in both arrays. Keep anonymous names and gift amounts out of the public JSON. Regenerate the page after updating either list.
+
+## GameChanger league schedule
+
+The Season Info page and its single calendar subscription use the same hourly
+publish job. In GitHub, open Settings → Secrets and variables → Actions and
+create a repository secret named `GAMECHANGER_FEEDS`. Its value is one JSON
+object mapping each public team label to its GameChanger Schedule Sync URL.
+Use HTTPS URLs copied directly from GameChanger. Replace the object at each
+season change to add or remove sources. Keep source URLs out of commits.
+
+After merging the patch, set Settings → Pages → Source to **GitHub Actions**.
+Open Actions → Publish website and league schedule and run it manually to
+check the first refresh. It also runs on main updates and hourly. Verify the
+weekly page and subscription at `/season-info/` after deployment.
+
+Start with the two clinic feeds. Check a reschedule and cancellation before
+adding every team. The job only knows about changes reflected in the feeds.
+If a source fails, the workflow stops before deploying, so the last published
+site remains available. A missing or empty secret publishes the site with the
+schedule disabled. Matching iCal event IDs are combined; different IDs are
+shown separately. Check GameChanger for last-minute notices.
