@@ -9,18 +9,12 @@ import re
 ROOT = Path(__file__).resolve().parents[1]
 
 
-HEADER_LINKS = (
-    ('baseball', 'Baseball'),
-    ('softball', 'Softball'),
-    ('winter-clinics', 'Winter Clinics'),
-    ('register', 'Register'),
-    ('season-info', 'Season Info'),
-    ('fields', 'Fields'),
-    ('volunteer', 'Volunteer'),
-    ('sponsors', 'Sponsors'),
-    ('donations', 'Donations'),
-    ('history', 'History'),
-    ('about', 'About'),
+HEADER_ITEMS = (
+    ('Programs', (('baseball', 'Baseball'), ('softball', 'Softball'), ('winter-clinics', 'Winter Clinics'))),
+    ('Register', 'register'),
+    ('Season', (('season-info', 'Season Info'), ('fields', 'Fields & Directions'))),
+    ('Get Involved', (('volunteer', 'Volunteer'), ('sponsors', 'Sponsors'), ('donations', 'Donate'))),
+    ('About', (('about', 'About the League'), ('history', 'League History'))),
 )
 
 
@@ -28,10 +22,24 @@ def site_header(page):
     section = '' if page.parent == ROOT else page.parent.name
     root = './' if not section else '../'
     current = ' aria-current="page"' if not section else ''
-    links = []
-    for slug, label in HEADER_LINKS:
+
+    def link(slug, label):
         active = ' aria-current="page"' if slug == section else ''
-        links.append(f'            <a href="{root}{slug}/"{active}>{label}</a>')
+        return f'<a href="{root}{slug}/"{active}>{escape(label)}</a>'
+
+    links = []
+    for label, item in HEADER_ITEMS:
+        if isinstance(item, str):
+            links.append(f'            {link(item, label)}')
+            continue
+        links.extend((
+            '            <details class="nav-group" name="main-navigation">',
+            f'                <summary>{escape(label)}</summary>',
+            '                <div class="nav-group-links">',
+            *(f'                    {link(slug, text)}' for slug, text in item),
+            '                </div>',
+            '            </details>',
+        ))
     navigation = '\n'.join(links)
     return f"""<header class="site-header">
     <div class="header-inner container">

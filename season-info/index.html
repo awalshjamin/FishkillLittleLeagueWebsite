@@ -7,8 +7,8 @@
     <meta name="description" content="Browse the Fishkill Little League games calendar one week at a time and find directions to our fields.">
     <link rel="canonical" href="https://fishkilllittleleague.org/season-info/">
     <link rel="icon" type="image/png" href="../assets/logos/favicon.png">
-    <link rel="stylesheet" href="../assets/css/site.css?v=season-venue-colors">
-    <script src="../assets/js/site.js" defer></script>
+    <link rel="stylesheet" href="../assets/css/site.css?v=grouped-navigation">
+    <script src="../assets/js/site.js?v=grouped-navigation" defer></script>
     <script src="../assets/js/schedule.js?v=season-venue-colors" defer></script>
 </head>
 <body>
@@ -22,17 +22,37 @@
         </a>
         <button id="mobile-menu-button" type="button" aria-controls="nav-menu" aria-expanded="false" hidden>Menu</button>
         <nav id="nav-menu" aria-label="Main navigation">
-            <a href="../baseball/">Baseball</a>
-            <a href="../softball/">Softball</a>
-            <a href="../winter-clinics/">Winter Clinics</a>
+            <details class="nav-group" name="main-navigation">
+                <summary>Programs</summary>
+                <div class="nav-group-links">
+                    <a href="../baseball/">Baseball</a>
+                    <a href="../softball/">Softball</a>
+                    <a href="../winter-clinics/">Winter Clinics</a>
+                </div>
+            </details>
             <a href="../register/">Register</a>
-            <a href="../season-info/" aria-current="page">Season Info</a>
-            <a href="../fields/">Fields</a>
-            <a href="../volunteer/">Volunteer</a>
-            <a href="../sponsors/">Sponsors</a>
-            <a href="../donations/">Donations</a>
-            <a href="../history/">History</a>
-            <a href="../about/">About</a>
+            <details class="nav-group" name="main-navigation">
+                <summary>Season</summary>
+                <div class="nav-group-links">
+                    <a href="../season-info/" aria-current="page">Season Info</a>
+                    <a href="../fields/">Fields &amp; Directions</a>
+                </div>
+            </details>
+            <details class="nav-group" name="main-navigation">
+                <summary>Get Involved</summary>
+                <div class="nav-group-links">
+                    <a href="../volunteer/">Volunteer</a>
+                    <a href="../sponsors/">Sponsors</a>
+                    <a href="../donations/">Donate</a>
+                </div>
+            </details>
+            <details class="nav-group" name="main-navigation">
+                <summary>About</summary>
+                <div class="nav-group-links">
+                    <a href="../about/">About the League</a>
+                    <a href="../history/">League History</a>
+                </div>
+            </details>
         </nav>
     </div>
 </header>
@@ -51,6 +71,14 @@
                 <select id="schedule-team"><option value="">All teams</option></select>
             </div>
             <p id="schedule-status" role="status">The league schedule is not available yet.</p>
+            <div class="schedule-field-key">
+                <strong>Field color key</strong>
+                <ul aria-label="Field colors">
+                    <li class="schedule-event schedule-event--shepheard">Blue · Shepheard Park</li>
+                    <li class="schedule-event schedule-event--doug-phillips">Red · Doug Phillips Park</li>
+                    <li class="schedule-event schedule-event--other">Purple · Other locations</li>
+                </ul>
+            </div>
             <div class="schedule-week" id="schedule-events"></div>
         </div>
     </section>

@@ -1,14 +1,18 @@
 const menuButton = document.querySelector("#mobile-menu-button");
 const navigation = document.querySelector("#nav-menu");
-const compactHeader = window.matchMedia("(width < 72rem)");
+const compactHeader = window.matchMedia("(width < 56rem)");
 
 function setMenuOpen(open) {
     menuButton.setAttribute("aria-expanded", String(open));
     navigation.hidden = compactHeader.matches && !open;
+    if (!open) {
+        for (const group of navigation.querySelectorAll(".nav-group[open]")) group.open = false;
+    }
 }
 
 function updateMenuLayout() {
     const focusedInNav = navigation.contains(document.activeElement);
+    const focusedGroup = document.activeElement.closest(".nav-group[open]");
     const focusedOnButton = document.activeElement === menuButton;
 
     menuButton.hidden = !compactHeader.matches;
@@ -18,8 +22,12 @@ function updateMenuLayout() {
         menuButton.focus();
     }
 
-    if (!compactHeader.matches && focusedOnButton) {
-        (navigation.querySelector("[aria-current='page']") ?? navigation.querySelector("a")).focus();
+    if (!compactHeader.matches && focusedGroup) {
+        focusedGroup.querySelector("summary").focus();
+    } else if (!compactHeader.matches && focusedOnButton) {
+        const current = navigation.querySelector("[aria-current='page']");
+        (current?.closest(".nav-group")?.querySelector("summary") ?? current
+            ?? navigation.querySelector("summary")).focus();
     }
 }
 
@@ -28,10 +36,21 @@ menuButton.addEventListener("click", () => {
 });
 
 document.querySelector(".site-header").addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && menuButton.getAttribute("aria-expanded") === "true") {
+    if (event.key !== "Escape") return;
+
+    const group = event.target.closest(".nav-group[open]");
+    if (group) {
+        group.open = false;
+        group.querySelector("summary").focus();
+    } else if (menuButton.getAttribute("aria-expanded") === "true") {
         setMenuOpen(false);
         menuButton.focus();
     }
+});
+
+document.addEventListener("click", (event) => {
+    if (navigation.contains(event.target)) return;
+    for (const group of navigation.querySelectorAll(".nav-group[open]")) group.open = false;
 });
 
 compactHeader.addEventListener("change", updateMenuLayout);

@@ -7,7 +7,7 @@
     <meta name="description" content="Youth baseball and softball for Fishkill, Beacon and Southern Dutchess families since 1954. Explore programs, local fields and ways to get involved.">
     <link rel="canonical" href="https://fishkilllittleleague.org/">
     <link rel="icon" type="image/png" href="./assets/logos/favicon.png">
-    <link rel="stylesheet" href="./assets/css/site.css">
+    <link rel="stylesheet" href="./assets/css/site.css?v=grouped-navigation">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Fishkill Little League">
     <meta property="og:locale" content="en_US">
@@ -93,7 +93,7 @@
   ]
 }
     </script>
-    <script src="./assets/js/site.js" defer></script>
+    <script src="./assets/js/site.js?v=grouped-navigation" defer></script>
 </head>
 <body>
 
@@ -106,17 +106,37 @@
         </a>
         <button id="mobile-menu-button" type="button" aria-controls="nav-menu" aria-expanded="false" hidden>Menu</button>
         <nav id="nav-menu" aria-label="Main navigation">
-            <a href="./baseball/">Baseball</a>
-            <a href="./softball/">Softball</a>
-            <a href="./winter-clinics/">Winter Clinics</a>
+            <details class="nav-group" name="main-navigation">
+                <summary>Programs</summary>
+                <div class="nav-group-links">
+                    <a href="./baseball/">Baseball</a>
+                    <a href="./softball/">Softball</a>
+                    <a href="./winter-clinics/">Winter Clinics</a>
+                </div>
+            </details>
             <a href="./register/">Register</a>
-            <a href="./season-info/">Season Info</a>
-            <a href="./fields/">Fields</a>
-            <a href="./volunteer/">Volunteer</a>
-            <a href="./sponsors/">Sponsors</a>
-            <a href="./donations/">Donations</a>
-            <a href="./history/">History</a>
-            <a href="./about/">About</a>
+            <details class="nav-group" name="main-navigation">
+                <summary>Season</summary>
+                <div class="nav-group-links">
+                    <a href="./season-info/">Season Info</a>
+                    <a href="./fields/">Fields &amp; Directions</a>
+                </div>
+            </details>
+            <details class="nav-group" name="main-navigation">
+                <summary>Get Involved</summary>
+                <div class="nav-group-links">
+                    <a href="./volunteer/">Volunteer</a>
+                    <a href="./sponsors/">Sponsors</a>
+                    <a href="./donations/">Donate</a>
+                </div>
+            </details>
+            <details class="nav-group" name="main-navigation">
+                <summary>About</summary>
+                <div class="nav-group-links">
+                    <a href="./about/">About the League</a>
+                    <a href="./history/">League History</a>
+                </div>
+            </details>
         </nav>
     </div>
 </header>
