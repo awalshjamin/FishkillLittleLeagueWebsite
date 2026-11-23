@@ -14,7 +14,7 @@ HEADER_ITEMS = (
     ('Register', 'register'),
     ('Season', (('season-guide', 'Season Guide'), ('season-info', 'League Schedule'), ('fields', 'Fields & Directions'))),
     ('Get Involved', (('volunteer', 'Volunteer'), ('sponsors', 'Sponsors'), ('donations', 'Donate'))),
-    ('About', (('about', 'About the League'), ('history', 'League History'))),
+    ('About', (('about', 'About the League'), ('communities#player-eligibility', 'Player Eligibility'), ('history', 'League History'))),
 )
 
 
@@ -24,8 +24,9 @@ def site_header(page):
     current = ' aria-current="page"' if not section else ''
 
     def link(slug, label):
+        slug, separator, fragment = slug.partition('#')
         active = ' aria-current="page"' if slug == section else ''
-        return f'<a href="{root}{slug}/"{active}>{escape(label)}</a>'
+        return f'<a href="{root}{slug}/{separator}{fragment}"{active}>{escape(label)}</a>'
 
     links = []
     for label, item in HEADER_ITEMS:
@@ -386,9 +387,10 @@ def league_blocks(league):
         ),
         'community-eligibility': (
             f'        <p><strong>League ages 4–7:</strong> {open_enrollment} {continued}</p>\n'
-            f'        <p><strong>League ages 8–16:</strong> {in_boundary} Enter either address in the '
-            '<a data-league-link="finder" href="">Little League Finder</a> and look for <strong>Fishkill LL</strong>. '
-            'Use the exact street address, since league boundaries can cross town and ZIP code lines.</p>\n'
+            f'        <p><strong>League ages 8–16:</strong> {in_boundary}</p>\n'
+            '        <p><a data-league-link="finder" href="" class="btn-primary">Check your home or school address</a></p>\n'
+            '        <p>Enter the exact street address in the Little League Finder and look for <strong>Fishkill LL</strong>. '
+            'League boundaries can cross town and ZIP code lines.</p>\n'
             f'        <p>{older} under <a href="{regulation}">Little League’s Regulation II</a>. '
             '<a data-league-link="email" href="mailto:?subject=Player%20eligibility">Email the league</a> '
             'if you’re unsure about the result.</p>'
