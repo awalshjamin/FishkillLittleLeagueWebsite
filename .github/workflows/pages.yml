@@ -26,7 +26,8 @@ jobs:
           echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
   fetch:
     needs: teams
-    if: ${{ needs.teams.outputs.matrix != '{"include": []}' }}
+    if: >-
+      ${{ needs.teams.outputs.matrix != '{"include": []}' }}
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.teams.outputs.matrix) }}
