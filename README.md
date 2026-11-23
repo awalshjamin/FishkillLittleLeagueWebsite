@@ -21,7 +21,9 @@ From the repository root, run `python3 -m http.server 8000` and open [localhost:
 2. From the repository root, run `python scripts/update-season.py` (or `py -3 scripts/update-season.py` on Windows).
 3. Preview the affected pages, check the Sports Connect links, and commit both the JSON and generated HTML. Run `python scripts/update-season.py --check` to check whether the HTML matches the data.
 
-The generator replaces the content between matching `season` comments. Edit family guidance outside those comments directly in `first-season/index.html`. Update the year, roles and names on the About page when a new board takes office. Use the approved sponsor roster and original sponsor artwork for the Sponsors page.
+The generator replaces the content between matching `season` comments. Edit family guidance outside those comments directly in `first-season/index.html`. Update `data/board.json` when a new board takes office, then regenerate the pages. Maintain the sponsor roster in `data/sponsors.json` and keep the original artwork under `assets/sponsors/`. Tee Ball practice days and game times are set on the divisions in `data/season.json`.
+
+Edit `data/league.json` for the public contact details, social links, and shared eligibility rules and school list. Run the same generator and commit the JSON and generated HTML together.
 
 ## Replace a page’s hero image
 
@@ -31,7 +33,7 @@ If the same photo is used for social previews, update the Open Graph image URL, 
 
 ## Update the main navigation
 
-Edit `HEADER_ITEMS` in `scripts/update-season.py`, then run `python3 scripts/update-season.py` to regenerate the header on every page. Commit the script and updated HTML together. Use `python3 scripts/update-season.py --check` to detect any pages with stale navigation.
+Edit `HEADER_ITEMS` in `scripts/update-season.py`, then run `python3 scripts/update-season.py` to regenerate the header on every page. Commit the script and updated HTML together. Use `python3 scripts/update-season.py --check` to detect any pages with stale navigation. Edit `scripts/site-footer.html` to update the shared footer, then run the same generator.
 
 ## Registration deadlines and closing registration
 

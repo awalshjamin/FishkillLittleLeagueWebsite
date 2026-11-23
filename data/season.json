@@ -24,6 +24,7 @@
     "winter_clinics": { "open": true, "deadline": null }
   },
   "registration_url": "https://registration.bluesombrero.com/21201/available-programs",
+  "tee_ball_intro": "Boys and girls learn the basics by hitting from a tee.",
   "programs": {
     "baseball": {
       "cutoff": "2027-08-31",
@@ -43,28 +44,29 @@
         },
         {
           "id": "131612323",
-          "name": "Tee Ball Monday",
           "ages": [
             5,
             6
           ],
           "fee": 75,
-          "description": "Boys and girls learn the basics by hitting from a tee. Practices are on Mondays, with games on Saturdays at 1:00 p.m.",
+          "practice_day": "Monday",
+          "game_day": "Saturday",
+          "game_time": "1:00 p.m.",
           "overview": {
-            "name": "Tee Ball",
-            "description": "Boys and girls learn the basics by hitting from a tee. Choose Monday or Tuesday practice when you register."
+            "name": "Tee Ball"
           },
           "rookie": true
         },
         {
           "id": "131610877",
-          "name": "Tee Ball Tuesday",
           "ages": [
             5,
             6
           ],
           "fee": 75,
-          "description": "Boys and girls learn the basics by hitting from a tee. Practices are on Tuesdays, with games on Saturdays at 10 a.m.",
+          "practice_day": "Tuesday",
+          "game_day": "Saturday",
+          "game_time": "10 a.m.",
           "registration_only": true,
           "rookie": true
         },

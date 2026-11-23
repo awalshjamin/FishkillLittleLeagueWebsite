@@ -1,0 +1,36 @@
+{
+  "contact": {
+    "email": "president@fishkilllittleleague.org",
+    "phone": "914-893-2839",
+    "phone_international": "+1-914-893-2839",
+    "mailing_address": [
+      "Fishkill Little League, PO Box 120",
+      "Fishkill, New York 12524"
+    ]
+  },
+  "social": {
+    "facebook": "https://www.facebook.com/tofll/",
+    "instagram": "https://www.instagram.com/fishkilllittleleague/"
+  },
+  "eligibility": {
+    "finder_url": "https://www.littleleague.org/play-little-league/league-finder/",
+    "regulation_url": "https://www.littleleague.org/downloads/2025-regulation-ii-summary/",
+    "open_enrollment": "Children league age 4–7 can register regardless of where they live or attend school.",
+    "older_players": "Players who have played continuously with Fishkill Little League since league age 7 and siblings of qualifying players may also be eligible",
+    "served_communities": [
+      "Fishkill",
+      "Beacon",
+      "East Fishkill",
+      "Glenham",
+      "Brinckerhoff"
+    ],
+    "school_district": "Beacon City School District",
+    "schools": [
+      "Fishkill Elementary",
+      "Gayhead Elementary",
+      "Brinckerhoff Elementary",
+      "St. Mary’s School",
+      "John Jay High School"
+    ]
+  }
+}

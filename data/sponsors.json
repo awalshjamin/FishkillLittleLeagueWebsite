@@ -1,0 +1,137 @@
+[
+  {
+    "name": "Pizza & Stuff",
+    "logo": "assets/sponsors/01-pizza-and-stuff.png",
+    "width": 288,
+    "height": 209,
+    "url": "https://www.pizzaandstuff.com/"
+  },
+  {
+    "name": "Feldman, Kleidman, Collins & Sappe",
+    "logo": "assets/sponsors/02-feldman-kleidman-collins-sappe.png",
+    "width": 1920,
+    "height": 393,
+    "url": "https://www.fkcs.law/"
+  },
+  {
+    "name": "Royal Carting",
+    "logo": "assets/sponsors/03-royal-carting.png",
+    "width": 2172,
+    "height": 724,
+    "url": "https://royalcarting.com/"
+  },
+  {
+    "name": "Bagel Shoppe",
+    "logo": "assets/sponsors/04-bagel-shoppe.png",
+    "width": 867,
+    "height": 579,
+    "url": "https://thebagelshoppefishkill.com/"
+  },
+  {
+    "name": "A Cat’s Place",
+    "logo": "assets/sponsors/05-a-cats-place.png",
+    "width": 1046,
+    "height": 1503,
+    "url": "https://www.acatsplacevet.com/"
+  },
+  {
+    "name": "Rombout Fire",
+    "logo": "assets/sponsors/06-rombout-fire.png",
+    "width": 1219,
+    "height": 1290,
+    "url": "https://www.romboutfire.com/"
+  },
+  {
+    "name": "NBT Bank",
+    "logo": "assets/sponsors/07-nbt-bank.png",
+    "width": 1200,
+    "height": 465,
+    "url": "https://www.nbtbank.com/"
+  },
+  {
+    "name": "Protection Engine Co #1",
+    "logo": "assets/sponsors/08-protection-engine-co-1.png",
+    "width": 1116,
+    "height": 1409
+  },
+  {
+    "name": "Trugo16",
+    "logo": "assets/sponsors/09-trugo16.png",
+    "width": 1254,
+    "height": 1254,
+    "url": "https://trugo16athletics.com/"
+  },
+  {
+    "name": "Gap Inc. Fishkill DC",
+    "logo": "assets/sponsors/10-gap-inc-fishkill-dc.png",
+    "width": 1200,
+    "height": 1082,
+    "url": "https://www.gapinc.com/"
+  },
+  {
+    "name": "I-84 Diner",
+    "logo": "assets/sponsors/11-i-84-diner.png",
+    "width": 1355,
+    "height": 1160,
+    "url": "https://thei84diner.com/"
+  },
+  {
+    "name": "Polly Insurance",
+    "logo": "assets/sponsors/12-polly-insurance.png",
+    "width": 1200,
+    "height": 435,
+    "url": "https://www.polly.co/"
+  },
+  {
+    "name": "In The Cut",
+    "logo": "assets/sponsors/13-in-the-cut.png",
+    "width": 1672,
+    "height": 941
+  },
+  {
+    "name": "Dutchess Orthodontics",
+    "logo": "assets/sponsors/14-dutchess-orthodontics.png",
+    "width": 1200,
+    "height": 1236,
+    "url": "https://dutchessortho.com/"
+  },
+  {
+    "name": "BCH Physicians",
+    "logo": "assets/sponsors/15-bch-physicians.png",
+    "width": 318,
+    "height": 80,
+    "url": "https://bchp.childrenshospital.org/"
+  },
+  {
+    "name": "DCSEA",
+    "logo": "assets/sponsors/16-dcsea.png",
+    "width": 1272,
+    "height": 1237
+  },
+  {
+    "name": "Fox Pest Control",
+    "logo": "assets/sponsors/17-fox-pest-control.png",
+    "width": 1200,
+    "height": 448,
+    "url": "https://fox-pest.com/"
+  },
+  {
+    "name": "Slater Chemical",
+    "logo": "assets/sponsors/18-slater-chemical.png",
+    "width": 1206,
+    "height": 1305
+  },
+  {
+    "name": "Folkes Home Services",
+    "logo": "assets/sponsors/19-folkes-heating.png",
+    "width": 917,
+    "height": 509,
+    "url": "https://folkeshomeservices.com/"
+  },
+  {
+    "name": "Hudson Valley Photo",
+    "logo": "assets/sponsors/20-hudson-valley-photo.png",
+    "width": 1536,
+    "height": 1024
+  }
+]

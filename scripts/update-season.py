@@ -1,7 +1,7 @@
 """Render season content and shared navigation into plain HTML for GitHub Pages."""
 import argparse
 from datetime import date
-from html import escape
+from html import escape, unescape
 import json
 from pathlib import Path
 import re
@@ -105,7 +105,7 @@ def spring_milestones(settings, prefix):
         after_attribute = f' data-after="{after}" hidden' if after else ''
         messages.append(
             f'<p data-through="{deadline}"{after_attribute}>Spring registration remains open in divisions with space. '
-            f'If your player needs an alternate evaluation, <a href="mailto:president@fishkilllittleleague.org?subject=Alternate%20player%20evaluation">email the league</a>.</p>'
+            f'If your player needs an alternate evaluation, <a data-league-link="email" href="mailto:?subject=Alternate%20player%20evaluation">email the league</a>.</p>'
         )
     if not messages:
         return ''
@@ -248,6 +248,20 @@ def clinic_tables(clinics, registration=False):
     return '        <div class="division-table-grid">\n' + '\n'.join(tables) + '\n        </div>'
 
 
+def sponsor_cards(sponsors):
+    items = []
+    for sponsor in sponsors:
+        logo = escape(sponsor['logo'], quote=True)
+        content = (
+            f'<img src="../{logo}" alt="" width="{int(sponsor["width"])}" height="{int(sponsor["height"])}" '
+            f'loading="lazy" decoding="async"><h3>{escape(sponsor["name"])}</h3>'
+        )
+        if url := sponsor.get('url'):
+            content = f'<a href="{escape(url, quote=True)}">{content}</a>'
+        items.append(f'            <li class="sponsor-card">{content}</li>')
+    return '        <ul class="sponsor-grid">\n' + '\n'.join(items) + '\n        </ul>'
+
+
 def regions(season):
     label = escape(season['label'])
     opening = time_tag(season['opening_day'], weekday=True)
@@ -256,11 +270,28 @@ def regions(season):
     evaluation_day = time_tag(evaluations['date'], weekday=True)
     evaluation = f'{evaluation_day}, {escape(evaluations["window"])}, at {escape(evaluations["location"])}.'
     attendance = escape(evaluations['requirement'])
-    alternate = 'If you can’t attend, <a href="mailto:president@fishkilllittleleague.org?subject=Alternate%20player%20evaluation">email the league as soon as possible</a> to arrange an alternate evaluation.'
-    payment = f'{escape(season["payment_options"])} <a href="mailto:president@fishkilllittleleague.org?subject=Registration%20payment%20options">Email the league about payment options</a>.'
+    alternate = 'If you can’t attend, <a data-league-link="email" href="mailto:?subject=Alternate%20player%20evaluation">email the league as soon as possible</a> to arrange an alternate evaluation.'
+    payment = f'{escape(season["payment_options"])} <a data-league-link="email" href="mailto:?subject=Registration%20payment%20options">Email the league about payment options</a>.'
     uniform = escape(season['uniform'])
     volunteer = f'The league charges one refundable ${season["volunteer_fee"]} volunteer fee per family. The fee is returned at the end of the season after the family volunteers.'
     refund = f'After {season["refund_hours"]} hours from registration submission, refunds require a medical note stating the player cannot participate this season.'
+    baseball = season['programs']['baseball']['divisions']
+    tee_ball = [item for item in baseball if item.get('practice_day')]
+    fundamentals = next(item for item in baseball if item.get('rookie') and not item.get('practice_day'))
+    practice_days = list(dict.fromkeys(item['practice_day'] for item in tee_ball))
+    tee_overview = f'{season["tee_ball_intro"]} Choose from these practice days when you register: {", ".join(practice_days)}.'
+    for item in tee_ball:
+        item['name'] = f'Tee Ball {item["practice_day"]}'
+        item['description'] = (
+            f'{season["tee_ball_intro"]} Practice is on {item["practice_day"]}, with games on '
+            f'{item["game_day"]} at {item["game_time"]}.'
+        )
+        if 'overview' in item:
+            item['overview']['description'] = tee_overview
+    tee_min = min(item['ages'][0] for item in tee_ball)
+    tee_max = max(item['ages'][1] for item in tee_ball)
+    tee_ages = f'{tee_min}–{tee_max}' if tee_min != tee_max else str(tee_min)
+    fun_age = fundamentals['ages'][0]
     registration_programs = {'rookies': {'divisions': [
         item for item in season['programs']['baseball']['divisions'] if item.get('rookie')
     ]}}
@@ -285,6 +316,9 @@ def regions(season):
         'home-registration-milestones': spring_milestones(spring_registration, './register/'),
         'register-milestones': spring_milestones(spring_registration, ''),
         'clinic-registration-status': registration_status('winter_clinics', clinic_registration, 'Winter clinic'),
+        'home-rookies-summary': f'                <p>Coed FUN-damentals for age {fun_age} and Tee Ball for ages {tee_ages}. A first step toward baseball or softball.</p>',
+        'rookies-fundamentals-age': f'                    <p class="division-meta">Age {fun_age}</p>',
+        'rookies-tee-ball-summary': f'                    <p class="division-meta">Ages {tee_ages}</p>\n                    <p>{escape(tee_overview)}</p>',
         'rookies-age': f'<p class="section-intro">FUN-damentals and Tee Ball are open to boys and girls. Tee Ball uses your child’s age on {rookies_cutoff}. {rookies_exception}</p>',
         'clinic-summary': clinic_summary,
         'clinic-schedule': clinic_tables(clinics),
@@ -331,6 +365,61 @@ def regions(season):
     return blocks
 
 
+def league_blocks(league):
+    eligibility = league['eligibility']
+    open_enrollment = escape(eligibility['open_enrollment'])
+    older = escape(eligibility['older_players'])
+    regulation = escape(eligibility['regulation_url'], quote=True)
+    district = escape(eligibility['school_district'])
+    schools = ', '.join(escape(school) for school in eligibility['schools'])
+    mailing = '<br>'.join(escape(line) for line in league['contact']['mailing_address'])
+    eligibility_link = '<a href="../communities/#player-eligibility">check player eligibility</a>'
+    return {
+        'league-mailing': mailing,
+        'registration-eligibility': f'            <p>{open_enrollment} For older players, {eligibility_link} before registering.</p>',
+        'about-eligibility': (
+            f'        <p>Students at schools in the {district} are eligible. Eligible schools also include {schools}.</p>\n'
+            f'        <p>{open_enrollment} {older}. For details, {eligibility_link}.</p>'
+        ),
+        'community-eligibility': (
+            f'        <p>{open_enrollment}</p>\n'
+            '        <p>For older players, check your home or school address in the '
+            '<a data-league-link="finder" href="">Little League Finder</a>. '
+            f'{older} under <a href="{regulation}">Little League’s Regulation II</a>. '
+            '<a data-league-link="email" href="mailto:?subject=Player%20eligibility">Email the league</a> '
+            'before registering if you need help confirming eligibility.</p>'
+        ),
+    }
+
+
+def render_league_links(html, league):
+    contact = league['contact']
+    destinations = {
+        'email': 'mailto:' + contact['email'],
+        'phone': 'tel:' + contact['phone_international'].replace('-', ''),
+        'finder': league['eligibility']['finder_url'],
+        **league['social'],
+    }
+
+    # Match the opening tag and any plain visible label, preserving other attributes.
+    def replace_anchor(match):
+        kind, href, attributes, label = match.groups()
+        destination = destinations[kind]
+        if kind == 'email' and '?' in href:
+            destination += '?' + unescape(href.split('?', 1)[1])
+        if kind == 'email' and label == href.removeprefix('mailto:'):
+            label = escape(contact['email'])
+        elif kind == 'phone':
+            label = escape(contact['phone'])
+        return f'<a data-league-link="{kind}" href="{escape(destination, quote=True)}"{attributes}>{label}</a>'
+
+    html = re.sub(r'<a data-league-link="([^"]+)" href="([^"]*)"([^>]*)>(.*?)</a>',
+                  replace_anchor, html)
+    for key, value in {'email': contact['email'], 'telephone': contact['phone_international']}.items():
+        html = re.sub(rf'("{key}": )"[^"]*"', lambda m: m[1] + json.dumps(value), html)
+    return html
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--check', action='store_true', help='Report stale output without writing')
@@ -359,17 +448,44 @@ def main():
     if dates != sorted(set(dates)):
         parser.error('Spring registration milestones must be in order and precede the final deadline.')
     donations = json.loads((ROOT / 'data/donations.json').read_text(encoding='utf-8'))
+    board = json.loads((ROOT / 'data/board.json').read_text(encoding='utf-8'))
+    board_rows = '\n'.join(
+        f'            <div><dt>{escape(role)}</dt><dd>{escape(name)}</dd></div>'
+        for role, name in board['members'].items()
+    )
+    footer_template = (ROOT / 'scripts/site-footer.html').read_text(encoding='utf-8').rstrip()
+    league = json.loads((ROOT / 'data/league.json').read_text(encoding='utf-8'))
     blocks = regions(season)
+    blocks.update(league_blocks(league))
+    communities = league['eligibility']['served_communities']
+    communities_label = ', '.join(communities[:-1]) + ' and ' + communities[-1] if len(communities) > 1 else ''.join(communities)
+    blocks['board'] = f"""        <h2>{board['year']} Board of Directors</h2>
+        <dl class="board-grid">
+{board_rows}
+        </dl>"""
+
+    blocks['sponsors'] = sponsor_cards(json.loads((ROOT / 'data/sponsors.json').read_text(encoding='utf-8')))
     blocks['donation-supporters'] = supporter_recognition(donations)
     pattern = re.compile(r'(<!-- season:([\w-]+) -->)\n.*?\n(<!-- /season:\2 -->)', re.S)
     stale = []
     header_pattern = re.compile(r'<header class="site-header">.*?</header>', re.S)
+    footer_pattern = re.compile(r'<footer class="site-footer">.*?</footer>', re.S)
     for path in [ROOT / 'index.html', *sorted(ROOT.glob('*/index.html'))]:
         current = path.read_text(encoding='utf-8')
         updated = pattern.sub(lambda m: f'{m[1]}\n{blocks[m[2]]}\n{m[3]}', current)
         updated, header_count = header_pattern.subn(lambda _: site_header(path), updated)
         if header_count != 1:
             parser.error(f'Expected one site header in {path.relative_to(ROOT)}.')
+        root = './' if path.parent == ROOT else '../'
+        footer = footer_template.replace('@root@', root)
+        footer = footer.replace('@communities@', escape(communities_label)).replace('@mailing@', blocks['league-mailing'])
+        if path.parent != ROOT:
+            href = f'<li><a href="{root}{path.parent.name}/"'
+            footer = footer.replace(href, href + ' aria-current="page"')
+        updated, footer_count = footer_pattern.subn(lambda _: footer, updated)
+        if footer_count != 1:
+            parser.error(f'Expected one site footer in {path.relative_to(ROOT)}.')
+        updated = render_league_links(updated, league)
         if current != updated:
             if args.check:
                 stale.append(str(path.relative_to(ROOT)))
