@@ -17,7 +17,7 @@ From the repository root, run `python3 -m http.server 8000` and open [localhost:
 
 ## Seasonal updates
 
-1. Edit `data/season.json` to update dates, league-age cutoffs, schedules, fees and Sports Connect division IDs. Use ISO dates (`YYYY-MM-DD`).
+1. Edit `data/season.json` to update dates, league-age cutoffs, schedules, fees and Sports Connect division IDs. Use ISO dates (`YYYY-MM-DD`). Register and the Season Guide share the same generated summary for evaluations, Opening Day, the volunteer fee, and uniforms and equipment.
 2. From the repository root, run `python scripts/update-season.py` (or `py -3 scripts/update-season.py` on Windows).
 3. Preview the affected pages, check the Sports Connect links, and commit both the JSON and generated HTML. Run `python scripts/update-season.py --check` to check whether the HTML matches the data.
 
@@ -31,7 +31,7 @@ If the same photo is used for social previews, update the Open Graph image URL, 
 
 ## Update the main navigation
 
-Edit `HEADER_LINKS` in `scripts/update-season.py`, then run `python3 scripts/update-season.py` to regenerate the header on every page. Commit the script and updated HTML together. Use `python3 scripts/update-season.py --check` to detect any pages with stale navigation.
+Edit `HEADER_ITEMS` in `scripts/update-season.py`, then run `python3 scripts/update-season.py` to regenerate the header on every page. Commit the script and updated HTML together. Use `python3 scripts/update-season.py --check` to detect any pages with stale navigation.
 
 ## Registration deadlines and closing registration
 

@@ -238,6 +238,8 @@ p:last-child { margin-bottom: 0; }
 .program-card h3, .division-card h3, .board-grid dt, .season-details h3 { color: var(--fll-blue); }
 .program-card p { color: var(--fll-dark); }
 .program-card span { font-weight: 700; text-decoration: underline; }
+#programs .program-grid > .program-card { display: flex; flex-direction: column; }
+#programs .program-grid > .program-card > span { margin-block-start: auto; }
 
 .division-card { display: flex; flex-direction: column; align-items: flex-start; }
 .division-card h3 { margin-bottom: .4rem; }

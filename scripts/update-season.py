@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 HEADER_ITEMS = (
     ('Programs', (('rookies', 'Rookies'), ('baseball', 'Baseball'), ('softball', 'Softball'), ('winter-clinics', 'Winter Clinics'))),
     ('Register', 'register'),
-    ('Season', (('season-info', 'League Schedule'), ('fields', 'Fields & Directions'))),
+    ('Season', (('season-guide', 'Season Guide'), ('season-info', 'League Schedule'), ('fields', 'Fields & Directions'))),
     ('Get Involved', (('volunteer', 'Volunteer'), ('sponsors', 'Sponsors'), ('donations', 'Donate'))),
     ('About', (('about', 'About the League'), ('history', 'League History'))),
 )
@@ -299,7 +299,7 @@ def regions(season):
             <h3>Player evaluations</h3>
             <p>{evaluation}</p>''',
         'register-intro': f'            Compare {label.lower()} divisions and register through Sports Connect.',
-        'register-summary': f'''        <h2>{label} at a Glance</h2>
+        'season-at-a-glance': f'''        <h2>{label} at a Glance</h2>
         <div class="season-details">
             <div><h3>Player evaluations</h3><p>{evaluation} {attendance} {alternate} Players are assigned a slot of {escape(evaluations["slot"])}. Details are expected in {escape(evaluations["details_release"])}.</p></div>
             <div><h3>Opening Day</h3><p>{opening}, weather permitting. Rain date {rain}. Ceremony details are expected in {escape(season["opening_details_release"])}.</p></div>
