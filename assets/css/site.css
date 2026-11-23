@@ -68,7 +68,19 @@ p:last-child { margin-bottom: 0; }
 
 .logo-container img { width: auto; height: 42px; }
 
-#mobile-menu-button {
+.mobile-header-actions { display: none; }
+
+@media (width < 56rem) {
+    .mobile-header-actions {
+        display: flex;
+        flex: 1;
+        justify-content: flex-end;
+        gap: .45rem;
+    }
+    .site-header:has(#mobile-menu-button:not([hidden])) #nav-menu > a { display: none; }
+}
+
+.mobile-header-actions a, #mobile-menu-button {
     background: transparent;
     color: white;
     border: 1px solid currentColor;
@@ -78,6 +90,16 @@ p:last-child { margin-bottom: 0; }
     padding-inline: .7rem;
     cursor: pointer;
 }
+
+.mobile-header-actions a {
+    display: inline-flex;
+    align-items: center;
+    background: white;
+    color: var(--fll-blue);
+    text-decoration: none;
+    font-weight: 750;
+}
+.mobile-header-actions a:hover, .mobile-header-actions a[aria-current="page"] { text-decoration: underline; }
 
 #nav-menu {
     display: flex;

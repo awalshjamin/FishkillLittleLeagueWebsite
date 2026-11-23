@@ -10,9 +10,9 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 HEADER_ITEMS = (
-    ('Programs', (('baseball', 'Baseball'), ('softball', 'Softball'), ('winter-clinics', 'Winter Clinics'))),
+    ('Programs', (('rookies', 'Rookies'), ('baseball', 'Baseball'), ('softball', 'Softball'), ('winter-clinics', 'Winter Clinics'))),
     ('Register', 'register'),
-    ('Season', (('season-info', 'Season Info'), ('fields', 'Fields & Directions'))),
+    ('Season', (('season-info', 'League Schedule'), ('fields', 'Fields & Directions'))),
     ('Get Involved', (('volunteer', 'Volunteer'), ('sponsors', 'Sponsors'), ('donations', 'Donate'))),
     ('About', (('about', 'About the League'), ('history', 'League History'))),
 )
@@ -47,7 +47,10 @@ def site_header(page):
             <img src="{root}assets/logos/fishkill-logo.png" alt="" width="1563" height="1563">
             <span>Fishkill Little League</span>
         </a>
-        <button id="mobile-menu-button" type="button" aria-controls="nav-menu" aria-expanded="false" hidden>Menu</button>
+        <div class="mobile-header-actions">
+            {link('register', 'Register')}
+            <button id="mobile-menu-button" type="button" aria-controls="nav-menu" aria-expanded="false" hidden>Menu</button>
+        </div>
         <nav id="nav-menu" aria-label="Main navigation">
 {navigation}
         </nav>

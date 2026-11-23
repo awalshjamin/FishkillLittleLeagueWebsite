@@ -7,9 +7,9 @@
     <meta name="description" content="Browse the Fishkill Little League games calendar one week at a time and find directions to our fields.">
     <link rel="canonical" href="https://fishkilllittleleague.org/season-info/">
     <link rel="icon" type="image/png" href="../assets/logos/favicon.png">
-    <link rel="stylesheet" href="../assets/css/site.css?v=grouped-navigation">
-    <script src="../assets/js/site.js?v=grouped-navigation" defer></script>
-    <script src="../assets/js/schedule.js?v=season-venue-colors" defer></script>
+    <link rel="stylesheet" href="../assets/css/site.css?v=rookies-navigation">
+    <script src="../assets/js/site.js?v=rookies-navigation" defer></script>
+    <script src="../assets/js/schedule.js?v=next-event" defer></script>
 </head>
 <body>
 
@@ -20,11 +20,15 @@
             <img src="../assets/logos/fishkill-logo.png" alt="" width="1563" height="1563">
             <span>Fishkill Little League</span>
         </a>
-        <button id="mobile-menu-button" type="button" aria-controls="nav-menu" aria-expanded="false" hidden>Menu</button>
+        <div class="mobile-header-actions">
+            <a href="../register/">Register</a>
+            <button id="mobile-menu-button" type="button" aria-controls="nav-menu" aria-expanded="false" hidden>Menu</button>
+        </div>
         <nav id="nav-menu" aria-label="Main navigation">
             <details class="nav-group" name="main-navigation">
                 <summary>Programs</summary>
                 <div class="nav-group-links">
+                    <a href="../rookies/">Rookies</a>
                     <a href="../baseball/">Baseball</a>
                     <a href="../softball/">Softball</a>
                     <a href="../winter-clinics/">Winter Clinics</a>
@@ -34,7 +38,7 @@
             <details class="nav-group" name="main-navigation">
                 <summary>Season</summary>
                 <div class="nav-group-links">
-                    <a href="../season-info/" aria-current="page">Season Info</a>
+                    <a href="../season-info/" aria-current="page">League Schedule</a>
                     <a href="../fields/">Fields &amp; Directions</a>
                 </div>
             </details>
@@ -69,8 +73,9 @@
                 <button type="button" id="schedule-next">Next week</button>
                 <label for="schedule-team">Team</label>
                 <select id="schedule-team"><option value="">All teams</option></select>
+                <button type="button" id="schedule-jump" hidden>Jump to next event</button>
             </div>
-            <p id="schedule-status" role="status">The league schedule is not available yet.</p>
+            <p id="schedule-status" role="status" tabindex="-1">The league schedule is not available yet.</p>
             <div class="schedule-field-key">
                 <strong>Field color key</strong>
                 <ul aria-label="Field colors">
@@ -99,6 +104,7 @@
                 <li><a href="../softball/">Softball</a></li>
                 <li><a href="../winter-clinics/">Winter Clinics</a></li>
                 <li><a href="../register/">Register</a></li>
+                <li><a href="../season-info/">League Schedule</a></li>
                 <li><a href="../fields/">Fields</a></li>
                 <li><a href="../volunteer/">Volunteer</a></li>
                 <li><a href="../sponsors/">Sponsors</a></li>

@@ -1,5 +1,6 @@
 const scheduleStatus = document.querySelector("#schedule-status");
 const list = document.querySelector("#schedule-events");
+const jump = document.querySelector("#schedule-jump");
 const team = document.querySelector("#schedule-team");
 const dayFormat = new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York", year: "numeric", month: "2-digit", day: "2-digit" });
 const timeFormat = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", timeStyle: "short" });
@@ -38,9 +39,15 @@ async function showSchedule() {
     }
     const today = new Date(dayKey(new Date()));
     let week = +today - today.getUTCDay() * dayMs;
+    let nextEventDay = Infinity;
     function render() {
-        const visible = events.filter(event => event.day >= week && event.day < week + 7 * dayMs &&
-            (!team.value || event.teams.includes(team.value)));
+        const matching = events.filter(event => !team.value || event.teams.includes(team.value));
+        const nextWeek = week + 7 * dayMs;
+        const visible = matching.filter(event => event.day >= week && event.day < nextWeek);
+        nextEventDay = matching.reduce((earliest, event) =>
+            !event.cancelled && event.day >= Math.max(+today, nextWeek)
+                ? Math.min(earliest, event.day) : earliest, Infinity);
+        jump.hidden = visible.length > 0 || !Number.isFinite(nextEventDay);
         visible.sort((a, b) => a.day - b.day || a.timestamp - b.timestamp || a.title.localeCompare(b.title));
         list.replaceChildren();
         for (let offset = 0; offset < 7; offset++) {
@@ -85,6 +92,11 @@ async function showSchedule() {
     }
     document.querySelector("#schedule-previous").addEventListener("click", () => { week -= 7 * dayMs; render(); });
     document.querySelector("#schedule-next").addEventListener("click", () => { week += 7 * dayMs; render(); });
+    jump.addEventListener("click", () => {
+        week = nextEventDay - new Date(nextEventDay).getUTCDay() * dayMs;
+        render();
+        scheduleStatus.focus();
+    });
     team.addEventListener("change", render);
     document.querySelector("#schedule-controls").hidden = false;
     document.querySelector("#schedule-subscribe").hidden = false;
