@@ -369,6 +369,9 @@ def league_blocks(league):
     eligibility = league['eligibility']
     open_enrollment = escape(eligibility['open_enrollment'])
     older = escape(eligibility['older_players'])
+    continued = escape(eligibility['continued_play'])
+    in_boundary = escape(eligibility['in_boundary'])
+    beacon_schools = ', '.join(escape(name) for name in eligibility['beacon_elementary_schools'])
     regulation = escape(eligibility['regulation_url'], quote=True)
     district = escape(eligibility['school_district'])
     schools = ', '.join(escape(school) for school in eligibility['schools'])
@@ -382,12 +385,18 @@ def league_blocks(league):
             f'        <p>{open_enrollment} {older}. For details, {eligibility_link}.</p>'
         ),
         'community-eligibility': (
-            f'        <p>{open_enrollment}</p>\n'
-            '        <p>For older players, check your home or school address in the '
-            '<a data-league-link="finder" href="">Little League Finder</a>. '
-            f'{older} under <a href="{regulation}">Little League’s Regulation II</a>. '
+            f'        <p><strong>League ages 4–7:</strong> {open_enrollment} {continued}</p>\n'
+            f'        <p><strong>League ages 8–16:</strong> {in_boundary} Enter either address in the '
+            '<a data-league-link="finder" href="">Little League Finder</a> and look for <strong>Fishkill LL</strong>. '
+            'Use the exact street address, since league boundaries can cross town and ZIP code lines.</p>\n'
+            f'        <p>{older} under <a href="{regulation}">Little League’s Regulation II</a>. '
             '<a data-league-link="email" href="mailto:?subject=Player%20eligibility">Email the league</a> '
-            'before registering if you need help confirming eligibility.</p>'
+            'if you’re unsure about the result.</p>'
+        ),
+        'beacon-school-eligibility': (
+            f'        <p>Students enrolled in the {district} can qualify through school. '
+            f'That includes {beacon_schools}. Use your school address in the '
+            '<a data-league-link="finder" href="">Little League Finder</a> to check.</p>'
         ),
     }
 
