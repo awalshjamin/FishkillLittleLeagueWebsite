@@ -99,6 +99,13 @@ p:last-child { margin-bottom: 0; }
     text-decoration: none;
     font-weight: 750;
 }
+@media (width < 56rem) {
+    .logo-container { gap: .4rem; }
+    .logo-name { line-height: 1.15; }
+    .logo-name > span { display: block; }
+    .mobile-header-actions a, #mobile-menu-button { padding-inline: .5rem; }
+}
+
 .mobile-header-actions a:hover, .mobile-header-actions a[aria-current="page"] { text-decoration: underline; }
 
 #nav-menu {

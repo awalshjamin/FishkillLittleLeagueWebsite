@@ -45,7 +45,7 @@ def site_header(page):
     <div class="header-inner container">
         <a class="logo-container" href="{root}" aria-label="Fishkill Little League home"{current}>
             <img src="{root}assets/logos/fishkill-logo.png" alt="" width="1563" height="1563">
-            <span>Fishkill Little League</span>
+            <span class="logo-name">Fishkill <span>Little League</span></span>
         </a>
         <div class="mobile-header-actions">
             {link('register', 'Register')}
